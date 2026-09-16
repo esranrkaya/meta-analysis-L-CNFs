@@ -55,6 +55,7 @@ body {
         <p class="text-sm md:text-base text-slate-300 leading-relaxed text-justify">
             Hybridizing nanocellulose with lignin offers a sustainable solution for biomass valorization, yet the development of these composites is primarily hindered by the structural variability and chemical heterogeneity of technical lignin. This results in poor interfacial compatibility, inhomogeneous dispersion, and difficulties in producing mechanically robust materials. To address these challenges and establish rational design principles, a meta-analysis was conducted by systematically extracting and normalizing quantitative data from studies on lignin–nanocellulose (L-NC) composites. The resulting database includes variables such as component ratios, synthesis routes, surface charge, and lignin molecular weight. The correlation of these variables reveals governing trends. First, in situ assembly methods successfully utilize the pre-existing fibrillar network as a spatial scaffold to confine lignin nanoparticles (LNPs) below 100 nm, preventing macroscopic coalescence. Second, normalization of formulations reveals a distinct structural divergence in performance thresholds based on material architecture. For dense 2D biocomposite films, a low-to-moderate L:NC mass ratio (within a 2.5:97.5 to 15:85 range) is required to act as a macromolecular plasticizer and physical nano-spacer, whereas exceeding a 20:80 ratio induces macroscopic agglomeration and mechanical failure. Conversely, highly porous 3D frameworks (e.g., aerogels and membranes) accommodate higher L:NC ratios (averaging ~33:67) to provide sufficient active sites for functional adsorption and conductivity. Third, the electrostatics of the template govern nanoscale assembly. Mildly negative cellulose nanofibrils yield lignin nanoparticle assemblies, while positively charged templates drive electrostatic adsorption and binding. Fourth, overcoming water susceptibility requires sacrificial networks via dynamic ionic or covalent cross-linking, which neutralizes swelling and yields high wet tensile strengths. Fifth, for extreme barrier applications, esterifying lignin creates thermally triggered sealants that induce pore collapse during hot-pressing, reducing water vapor transmission. Finally, bioactive properties, including UV-shielding and antioxidant capacity, scale linearly with lignin content independent of mechanical limits. An interactive living meta-analysis accessible with a QR code was developed. This work provides a data-driven framework for designing high-performance lignocellulosic biocomposites and supports their use in applications ranging from sustainable packaging to flexible electronics.
         </p>
+        <p class="text-xs text-amber-200 mt-4">Data update: the interactive records use the revised workbook. The quantitative thresholds and trend claims in this abstract have not yet been recalculated from the revised records.</p>
     </div>
 </header>
 
@@ -103,10 +104,12 @@ body {
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            Export raw CSV
+            Export study data CSV
         </button>
     </div>
     
+    <p class="text-sm text-slate-400 mb-3">Numeric charts show only single reported measurements with a clear unit and material. Ranges and multiple formulations remain available in the study records below.</p>
+    <p id="scatter-count" class="text-sm text-slate-400 mb-2" aria-live="polite"></p>
     <div id="interactive-scatter" class="w-full h-[600px] plot-container p-2 mb-8"></div>
 </section>
 
@@ -134,6 +137,7 @@ body {
                 <select id="dist-category-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
             </div>
         </div>
+        <p id="distribution-count" class="text-sm text-slate-400 mb-2" aria-live="polite"></p>
         <div id="distribution-plot" class="w-full h-[500px] plot-container p-2"></div>
     </section>
 
@@ -142,6 +146,7 @@ body {
             <span class="bg-purple-500 w-2 h-8 rounded-full mr-3"></span>
             4. Pairwise correlation matrix
         </h2>
+        <p class="text-sm text-slate-400 mb-2">Pearson correlation requires at least five paired records. Blank cells have too little comparable data.</p>
         <div id="heatmap-plot" class="w-full h-[585px] plot-container p-2"></div>
     </section>
 </div>
@@ -156,81 +161,11 @@ body {
 </footer>
 </div>
 
+<script src="./site-data.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-const database = [
-    {
-        'DOI': '10.1039/d5fd00063g', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Food Packaging', 
-        'Particle_Size_nm': 300, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 66
-    },
-    {
-        'DOI': '10.1016/j.carpta.2024.100651', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Packaging', 
-        'Particle_Size_nm': 129, 'Zeta_Potential_mV': -79, 'Contact_Angle_deg': 68.35, 'Tensile_Strength_MPa': 139.7
-    },
-    {
-        'DOI': '10.1016/j.heliyon.2024.e25272', 'Lignin_Type': 'Vanillin Epoxy', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Exchange/Curing', 'Target_Application': 'Engineering Structures', 
-        'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 91.8, 'Tensile_Strength_MPa': 127.78
-    },
-    {'DOI': '10.1021/acs.biomac.0c01596', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 37, 'Zeta_Potential_mV': -37.5, 'Contact_Angle_deg': 61.5, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2025.146904', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'E-NIPS', 'Target_Application': 'Packaging', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 70, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1002/asia.202200671', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Biomedical', 'Particle_Size_nm': 159.7, 'Zeta_Potential_mV': -14.4, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2025.147013', 'Lignin_Type': 'Bagasse Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Vacuum Filtration', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 146, 'Zeta_Potential_mV': -38, 'Contact_Angle_deg': 51.0, 'Tensile_Strength_MPa': 115.5},
-    {'DOI': '10.1021/acsomega.8b01225', 'Lignin_Type': 'Soda Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'In Situ Precipitation', 'Target_Application': 'Multifunctional Composites', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acs.biomac.8b01539', 'Lignin_Type': 'Organosolv Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Casting', 'Target_Application': 'Bioconversion Modeling', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.3390/membranes11030204', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solution Casting', 'Target_Application': 'Membranes', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 84},
-    {'DOI': '10.1021/acs.biomac.9b01745', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Extrusion/3D Printing', 'Target_Application': 'Tissue Engineering', 'Particle_Size_nm': 244, 'Zeta_Potential_mV': -37, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acsami.1c08274', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Electrophoretic Deposition', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 146, 'Zeta_Potential_mV': -40.5, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.3390/polym13244346', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Blending/Casting', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 150, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 68.26},
-    {'DOI': '10.1002/cssc.201402432', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Laccase-Mediated Coupling', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 80, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acsami.3c01880', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Lyophilization', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 83, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.jcis.2024.10.083', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Pickering Emulsion Templating', 'Target_Application': 'Biobased Nanocomposites', 'Particle_Size_nm': 100, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 35, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.envpol.2024.124623', 'Lignin_Type': 'Plant Extract Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Free-Radical Copolymerization', 'Target_Application': 'Soil Remediation', 'Particle_Size_nm': 21.8, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acsnano.5c04945', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Freeze-Casting/Carbonization', 'Target_Application': 'Batteries/Electronics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': -39.9, 'Contact_Angle_deg': 55, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acs.biomac.5b01203', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Spin-Coating', 'Target_Application': 'Bioconversion Modeling', 'Particle_Size_nm': null, 'Zeta_Potential_mV': -22, 'Contact_Angle_deg': 65, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.3390/gels10010059', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Ultrasonic Nebulization', 'Target_Application': 'Water Purification', 'Particle_Size_nm': 80, 'Zeta_Potential_mV': 24, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acsnano.0c10307', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'EISA/Carbonization', 'Target_Application': 'CO2 Capture', 'Particle_Size_nm': 420, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2024.135559', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Free Radical Polymerization', 'Target_Application': 'Wearable Sensors', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/bm020091n', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'Chitosan', 'Synthesis_Method': 'Polyelectrolyte Complexation', 'Target_Application': 'Wastewater Treatment', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.carbpol.2025.123851', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Vapor Diffusion Cross-linking', 'Target_Application': 'Carbon Capture', 'Particle_Size_nm': 196, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acs.biomac.0c00583', 'Lignin_Type': 'Coniferyl Alcohol', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Fenton Reaction', 'Target_Application': 'Active Packaging', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2025.149731', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'Chitin', 'Synthesis_Method': 'Self-Assembly', 'Target_Application': 'Wound Dressing', 'Particle_Size_nm': 380, 'Zeta_Potential_mV': -28.9, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2021.01.050', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Electrospinning', 'Target_Application': 'Tissue Scaffolds', 'Particle_Size_nm': 5.3, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2022.10.198', 'Lignin_Type': 'BCTMP Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Mechanical Fibrillation', 'Target_Application': 'Emulsifiers', 'Particle_Size_nm': 13.3, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2024.130670', 'Lignin_Type': 'Rice Husk Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'PDES Extraction', 'Target_Application': 'Epidermal Sensors', 'Particle_Size_nm': 16.6, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 0.6},
-    {'DOI': '10.1016/j.ijbiomac.2025.142175', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Chemical Crosslinking', 'Target_Application': 'Smart Windows', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 35, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acsnano.4c12946', 'Lignin_Type': 'Nanolignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Nanoprecipitation', 'Target_Application': 'Flexible Electronics', 'Particle_Size_nm': 329, 'Zeta_Potential_mV': -30.8, 'Contact_Angle_deg': 66.2, 'Tensile_Strength_MPa': 33.3},
-    {'DOI': '10.1016/j.ijbiomac.2023.125010', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Cross-Linking/Freeze-Drying', 'Target_Application': 'Wearable Sensors', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.3390/ma11030451', 'Lignin_Type': 'Bio-Lignin', 'Carbohydrate_Type': 'Chitin', 'Synthesis_Method': 'Electrospinning', 'Target_Application': 'Biomedical', 'Particle_Size_nm': 197, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 3.1},
-    {'DOI': '10.1016/j.fpsl.2026.101698', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 110, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 101, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.compositesb.2025.112400', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Vacuum Filtration', 'Target_Application': 'Structural Composites', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1007/s10570-025-06562-3', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Enzymatic Polymerization', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 40, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 120, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1007/s10924-024-03328-z', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Pickering Emulsion Templating', 'Target_Application': 'Biodegradable Plastics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1007/s10570-021-03847-1', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Physical Crosslinking', 'Target_Application': 'Wastewater Purification', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.biteb.2024.101928', 'Lignin_Type': 'Black Liquor Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solution Casting', 'Target_Application': 'Protective Coatings', 'Particle_Size_nm': 94, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 109, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1007/s10570-025-06394-1', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Free Radical Polymerization', 'Target_Application': 'Wearable Sensors', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 0.22},
-    {'DOI': '10.1016/j.indcrop.2024.119300', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Hydrothermal/Cross-linking', 'Target_Application': 'Antibiotic Removal', 'Particle_Size_nm': 2.8, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.eurpolymj.2022.111204', 'Lignin_Type': 'Dealkaline Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'EISA', 'Target_Application': 'Biomedical Devices', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 92.5, 'Tensile_Strength_MPa': 60},
-    {'DOI': '10.1007/s12034-017-1371-7', 'Lignin_Type': 'Beech Wood Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Casting', 'Target_Application': 'Eco-Friendly Plastics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acssuschemeng.1c01576', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Enzymatic Polymerization', 'Target_Application': 'Biobased Packaging', 'Particle_Size_nm': 40, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 50.4, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acssuschemeng.9b06291', 'Lignin_Type': 'Artificial Lignin', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Emulsion Templating', 'Target_Application': 'Reinforced Plastics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.memsci.2021.119977', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Electrospinning/Ice-Templating', 'Target_Application': 'Air Filtration', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acssuschemeng.8b00805', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'Chitin', 'Synthesis_Method': 'Dissolution', 'Target_Application': 'Water Purification', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijhydene.2025.04.314', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Gel Casting', 'Target_Application': 'Fuel Cells', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.cej.2025.163852', 'Lignin_Type': 'Lignin NPs', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'One-Pot Mixing', 'Target_Application': 'Agriculture', 'Particle_Size_nm': 45, 'Zeta_Potential_mV': -31.6, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 3.92},
-    {'DOI': '10.1039/d2gc04358k', 'Lignin_Type': 'Dealkaline Lignin', 'Carbohydrate_Type': 'Chitosan', 'Synthesis_Method': 'Self-Assembly', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.cej.2024.149360', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Free-Radical Polymerization', 'Target_Application': 'Energy Storage', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 0.11},
-    {'DOI': '10.1021/acssuschemeng.2c07288', 'Lignin_Type': 'Lignin Powder', 'Carbohydrate_Type': 'CNC/CNF', 'Synthesis_Method': 'Photopolymerization', 'Target_Application': 'Wood Coatings', 'Particle_Size_nm': 74, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acs.langmuir.1c00778', 'Lignin_Type': 'Corncob Lignin', 'Carbohydrate_Type': 'Chitosan', 'Synthesis_Method': 'Microfluidic Precipitation', 'Target_Application': 'Nanocarriers', 'Particle_Size_nm': 180, 'Zeta_Potential_mV': -13, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.ijbiomac.2025.146474', 'Lignin_Type': 'Biomass Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Nanoprecipitation', 'Target_Application': 'Nanofertilizer', 'Particle_Size_nm': 212.8, 'Zeta_Potential_mV': -30.2, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.jenvman.2024.120909', 'Lignin_Type': 'Enzymatic Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Freeze-Forming', 'Target_Application': 'Oil Spill Remediation', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 151, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1039/d4tb00458b', 'Lignin_Type': 'Bagasse Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Chemical Cross-Linking', 'Target_Application': 'Wound Dressings', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1016/j.jenvman.2022.117210', 'Lignin_Type': 'Birch Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Electrostatic Assembly', 'Target_Application': 'Wastewater Treatment', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.3390/nano11123426', 'Lignin_Type': 'Bagasse Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Vacuum Filtration', 'Target_Application': 'Plastic Replacements', 'Particle_Size_nm': 292, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 112, 'Tensile_Strength_MPa': 70},
-    {'DOI': '10.1016/j.ijbiomac.2020.01.102', 'Lignin_Type': 'Celery Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solution Casting', 'Target_Application': 'Wastewater Treatment', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
-    {'DOI': '10.1021/acssuschemeng.2c02785', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Continuous Wet-Spinning', 'Target_Application': 'Fiber Composites', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 143, 'Tensile_Strength_MPa': 684.61},
-    {'DOI': '10.1016/j.compositesb.2022.109803', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Chemical Cross-Linking', 'Target_Application': 'Flexible Electronics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 146}
-];
+const database = window.SITE_DATA;
 
 function toSentenceCase(str) {
     if (!str || String(str).toUpperCase() === 'N/R') return 'N/R';
@@ -271,10 +206,17 @@ const labelMap = {
     'Zeta_Potential_mV': 'Zeta potential (mV)',
     'Contact_Angle_deg': 'Contact angle (deg)',
     'Tensile_Strength_MPa': 'Tensile strength (MPa)',
-    'Lignin_Type': 'Lignin type',
-    'Carbohydrate_Type': 'Carbohydrate type',
-    'Synthesis_Method': 'Synthesis method',
-    'Target_Application': 'Target application'
+    'Lignin_Type': 'Lignin group',
+    'Carbohydrate_Type': 'Carbohydrate group',
+    'Synthesis_Method': 'Method group',
+    'Target_Application': 'Application group'
+};
+
+const reportedField = {
+    'Particle_Size_nm': 'Particle Size (nm)',
+    'Zeta_Potential_mV': 'Zeta Potential (mV)',
+    'Contact_Angle_deg': 'Contact Angle (°)',
+    'Tensile_Strength_MPa': 'Mechanical Properties'
 };
 
 let processedData = database.map(d => {
@@ -321,10 +263,10 @@ function populateSelectors() {
     });
 
     selects.x.value = 'Particle_Size_nm';
-    selects.y.value = 'Tensile_Strength_MPa';
+    selects.y.value = 'Zeta_Potential_mV';
     selects.color.value = 'Lignin_Type';
     selects.filterCat.value = 'Carbohydrate_Type';
-    selects.distY.value = 'Tensile_Strength_MPa';
+    selects.distY.value = 'Particle_Size_nm';
     selects.distCat.value = 'Lignin_Type';
     
     document.getElementById('log-y-checkbox').checked = false;
@@ -371,7 +313,7 @@ function updateScatterPlot() {
 
     groups.forEach((group, index) => {
         const groupColor = colorPalette[index % colorPalette.length];
-        const groupData = data.filter(d => d[colorVar] === group && d[xVar] !== null && d[yVar] !== null);
+        const groupData = data.filter(d => d[colorVar] === group && d[xVar] !== null && d[yVar] !== null && (!logX || d[xVar] > 0) && (!logY || d[yVar] > 0));
         if(groupData.length === 0) return;
 
         let xVals = groupData.map(d => d[xVar]);
@@ -381,7 +323,7 @@ function updateScatterPlot() {
             x: xVals,
             y: yVals,
             customdata: groupData.map(d => d.DOI),
-            text: groupData.map(d => `<b>DOI:</b> ${d.DOI}<br><b>Lignin:</b> ${d.Lignin_Type}<br><b>Carbohydrate:</b> ${d.Carbohydrate_Type}<br><b>Method:</b> ${d.Synthesis_Method}`),
+            text: groupData.map(d => `<b>Article ${d.article_number}</b><br><b>DOI:</b> ${d.DOI}<br><b>${labelMap[xVar]}:</b> ${d[xVar]}<br><b>Reported X:</b> ${d.fields[reportedField[xVar]]}<br><b>${labelMap[yVar]}:</b> ${d[yVar]}<br><b>Reported Y:</b> ${d.fields[reportedField[yVar]]}`),
             hoverinfo: 'text',
             mode: 'markers',
             type: 'scatter',
@@ -450,7 +392,7 @@ function calculateCorrelation(x, y) {
         }
     }
     
-    if (validPairs.length < 3) return null;
+    if (validPairs.length < 5) return null;
     
     let n = validPairs.length;
     let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
@@ -470,8 +412,8 @@ function drawHeatmap() {
     for (let i = 0; i < numericalCols.length; i++) {
         const row = [];
         for (let j = 0; j < numericalCols.length; j++) {
-            const col1 = processedData.map(d => d[numericalCols[i]]);
-            const col2 = processedData.map(d => d[numericalCols[j]]);
+            const col1 = getFilteredData().map(d => d[numericalCols[i]]);
+            const col2 = getFilteredData().map(d => d[numericalCols[j]]);
             row.push(calculateCorrelation(col1, col2));
         }
         matrix.push(row);
@@ -506,7 +448,7 @@ function drawPathway() {
     if(data.length === 0) return;
 
     const cols = ['Lignin_Type', 'Carbohydrate_Type', 'Synthesis_Method', 'Target_Application'];
-    const colLabels = ['Lignin type', 'Carbohydrate precursor', 'Synthesis method', 'Final application'];
+    const colLabels = ['Lignin group', 'Carbohydrate group', 'Method group', 'Application group'];
     
     const yMappings = {};
     cols.forEach(col => {
@@ -715,5 +657,6 @@ function init() {
 init();
 });
 </script>
+<script src="./site-features.js"></script>
 </body>
 </html>

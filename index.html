@@ -1,884 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive nanocellulose-stabilized Pickering emulsions data explorer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .control-panel label {
-            color: #cbd5e1; /* slate-300 */
-        }
-        .control-panel select, .control-panel input {
-            background-color: #334155; /* slate-700 */
-            color: #f1f5f9; /* slate-100 */
-            border-color: #475569; /* slate-600 */
-        }
-        .plotly .modebar {
-            background-color: transparent !important;
-        }
-        .plotly .modebar-btn path {
-            fill: #94a3b8 !important; /* slate-400 */
-        }
-        .plot-container {
-             background-color: rgba(15, 23, 42, 0.7); /* slate-900 with some transparency */
-             border-radius: 0.5rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A living meta-analysis of lignin-nanocellulose hybrid systems</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+.control-panel label {
+    color: #cbd5e1;
+}
+.control-panel select, .control-panel input {
+    background-color: #1e293b;
+    color: #f8fafc;
+    border: 1px solid #475569;
+}
+.plotly .modebar {
+    background-color: transparent !important;
+}
+.plotly .modebar-btn path {
+    fill: #94a3b8 !important;
+}
+.plot-container {
+    background-color: rgba(30, 41, 59, 0.6);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+</style>
 </head>
-<body class="bg-slate-900 text-slate-200">
-
-    <div class="container mx-auto p-4 md:p-6">
-        <header class="text-center mb-10">
-    <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">From colloid science to industrial applications: Mapping research progress in nanocellulose-based Pickering emulsions.</h1>
+<body>
+<div class="container mx-auto p-4 md:p-8">
+<header class="text-center mb-12">
+    <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight mb-6">A living meta-analysis of lignin-nanocellulose hybrid systems: interaction trends and performance thresholds</h1>
     
-    <p class="text-lg text-sky-400 mt-4">
-        DOI: <a href="https://doi.org/10.5281/zenodo.15808694" target="_blank" class="hover:underline">10.5281/zenodo.15808694</a>
-    </p>
+    <div class="mb-8">
+        <p class="text-xl text-sky-400 font-semibold mb-2">Esranur Kaya, Ronald Marquez, Marc Delgado-Aguilar</p>
+        <p class="text-sm text-slate-400">
+            LEPAMAP-PRODIS Research Group, University of Girona. C/ Maria Aurèlia Capmany, 61 – 17003 Girona (Spain)<br>
+            <a href="mailto:esranur.kaya@udg.edu" class="text-sky-400 hover:text-sky-300 transition-colors">esranur.kaya@udg.edu</a>, 
+            <a href="mailto:ronald.marquez@udg.edu" class="text-sky-400 hover:text-sky-300 transition-colors">ronald.marquez@udg.edu</a>, 
+            <a href="mailto:m.delgado@udg.edu" class="text-sky-400 hover:text-sky-300 transition-colors">m.delgado@udg.edu</a>
+        </p>
+    </div>
     
-    <p class="text-lg text-slate-400 mt-2 max-w-4xl mx-auto">This interactive platform presents a curated database of over 50 scientific articles on nanocellulose-stabilized Pickering emulsions. The goal is to provide researchers, students, and industry professionals with a tool to explore the relationships between nanocellulose properties (type, modification, concentration), emulsification conditions, and the resulting emulsion characteristics (droplet size, stability). Use the interactive controls to visualize trends, identify knowledge gaps, and accelerate the development of new applications. This work was presented at Tappi Nano 2025, Girona, Spain. Authors: Ronald Marquez, Roberto J. Aguado, Blaise Tardy, Marc Delgado Aguilar.</p>
+    <div class="bg-slate-800 p-8 rounded-xl text-left max-w-5xl mx-auto border border-slate-700 shadow-2xl">
+        <h3 class="text-xl font-bold text-white mb-4 border-b border-slate-600 pb-2">Abstract</h3>
+        <p class="text-sm md:text-base text-slate-300 leading-relaxed text-justify">
+            Hybridizing nanocellulose with lignin offers a sustainable solution for biomass valorization, yet the development of these composites is primarily hindered by the structural variability and chemical heterogeneity of technical lignin. This results in poor interfacial compatibility, inhomogeneous dispersion, and difficulties in producing mechanically robust materials. To address these challenges and establish rational design principles, a meta-analysis was conducted by systematically extracting and normalizing quantitative data from studies on lignin–nanocellulose (L-NC) composites. The resulting database includes variables such as component ratios, synthesis routes, surface charge, and lignin molecular weight. The correlation of these variables reveals governing trends. First, in situ assembly methods successfully utilize the pre-existing fibrillar network as a spatial scaffold to confine lignin nanoparticles (LNPs) below 100 nm, preventing macroscopic coalescence. Second, normalization of formulations reveals a distinct structural divergence in performance thresholds based on material architecture. For dense 2D biocomposite films, a low-to-moderate L:NC mass ratio (within a 2.5:97.5 to 15:85 range) is required to act as a macromolecular plasticizer and physical nano-spacer, whereas exceeding a 20:80 ratio induces macroscopic agglomeration and mechanical failure. Conversely, highly porous 3D frameworks (e.g., aerogels and membranes) accommodate higher L:NC ratios (averaging ~33:67) to provide sufficient active sites for functional adsorption and conductivity. Third, the electrostatics of the template govern nanoscale assembly. Mildly negative cellulose nanofibrils yield lignin nanoparticle assemblies, while positively charged templates drive electrostatic adsorption and binding. Fourth, overcoming water susceptibility requires sacrificial networks via dynamic ionic or covalent cross-linking, which neutralizes swelling and yields high wet tensile strengths. Fifth, for extreme barrier applications, esterifying lignin creates thermally triggered sealants that induce pore collapse during hot-pressing, reducing water vapor transmission. Finally, bioactive properties, including UV-shielding and antioxidant capacity, scale linearly with lignin content independent of mechanical limits. An interactive living meta-analysis accessible with a QR code was developed. This work provides a data-driven framework for designing high-performance lignocellulosic biocomposites and supports their use in applications ranging from sustainable packaging to flexible electronics.
+        </p>
+    </div>
 </header>
 
-        <main class="space-y-10">
-            <section class="bg-slate-800/50 p-6 rounded-xl shadow-2xl ring-1 ring-white/10">
-                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-slate-700 pb-3">1. Nanocellulose-stabilized Pickering emulsions data explorer: A "living" meta-analysis</h2>
-                <p class="text-slate-400 mb-6 text-base">
-                    Explore the relationship between any two variables from the database. Use the dropdown menus to select parameters for the X and Y axes. You can color the data points by a specific category (e.g., nanocellulose type) and filter the data to isolate subsets of interest. Check the "Log" boxes to switch to a logarithmic scale. Click on any point to open the original article in a new tab.
-                </p>
-                <div class="control-panel grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-                    <div>
-                        <label for="x-axis-select" class="block text-sm font-medium">X-Axis:</label>
-                        <select id="x-axis-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
-                    </div>
-                    <div>
-                        <label for="y-axis-select" class="block text-sm font-medium">Y-Axis:</label>
-                        <select id="y-axis-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
-                    </div>
-                    <div>
-                        <label for="color-by-select" class="block text-sm font-medium">Color By:</label>
-                        <select id="color-by-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
-                    </div>
-                    <div>
-                        <label for="filter-category-select" class="block text-sm font-medium">Filter Category:</label>
-                        <select id="filter-category-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
-                    </div>
-                    <div>
-                        <label for="filter-value-select" class="block text-sm font-medium">Filter Value:</label>
-                        <select id="filter-value-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
-                    </div>
-                </div>
+<main class="space-y-12">
+<section class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
+    <h2 class="text-2xl font-bold mb-6 text-white flex items-center">
+        <span class="bg-sky-500 w-2 h-8 rounded-full mr-3"></span>
+        1. Lignin-cellulose hybrids interactive data explorer
+    </h2>
 
-                <div class="flex justify-between items-center mb-6">
-                    <div class="flex space-x-4">
-                        <label class="flex items-center space-x-2 text-sm cursor-pointer">
-                            <input type="checkbox" id="log-x-checkbox" class="h-4 w-4 rounded bg-slate-700 border-slate-600 text-indigo-600 focus:ring-indigo-500">
-                            <span>Log X-Axis</span>
-                        </label>
-                        <label class="flex items-center space-x-2 text-sm cursor-pointer">
-                            <input type="checkbox" id="log-y-checkbox" class="h-4 w-4 rounded bg-slate-700 border-slate-600 text-indigo-600 focus:ring-indigo-500">
-                            <span>Log Y-Axis</span>
-                        </label>
-                    </div>
-                    <div>
-                        <button id="download-csv-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-slate-800 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 9.707a1 1 0 011.414 0L10 12.001l2.293-2.294a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L9 9.586V4a1 1 0 011-1z" clip-rule="evenodd" />
-                            </svg>
-                            Download Data (CSV)
-                        </button>
-                    </div>
-                </div>
-
-                <div id="interactive-scatter" class="w-full h-[600px] plot-container"></div>
-            </section>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                <section class="bg-slate-800/50 p-6 rounded-xl shadow-2xl ring-1 ring-white/10">
-                    <h2 class="text-2xl font-semibold mb-4 text-white border-b border-slate-700 pb-3">2. Droplet Size Distribution</h2>
-                    <p class="text-slate-400 mb-6 text-base">
-                        This box plot shows the distribution of the emulsion droplet size (in micrometers) grouped by different categories. It allows for a visual comparison of how a categorical variable (e.g., emulsification method, oil type) influences the median droplet size and the variability of results reported in the literature.
-                    </p>
-                    <div class="control-panel grid grid-cols-1 gap-4 mb-6">
-                        <div>
-                            <label for="dist-category-select" class="block text-sm font-medium">Group By:</label>
-                            <select id="dist-category-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
-                        </div>
-                    </div>
-                    <div id="distribution-plot" class="w-full h-[500px] plot-container"></div>
-                </section>
-                
-                <section class="bg-slate-800/50 p-6 rounded-xl shadow-2xl ring-1 ring-white/10">
-                    <h2 class="text-2xl font-semibold mb-4 text-white border-b border-slate-700 pb-3">3. Correlation Matrix</h2>
-                    <p class="text-slate-400 mb-6 text-base">
-                        This heatmap visualizes the Pearson correlation coefficient between all numerical variables in the database. Warm colors (red) indicate a strong positive correlation, while cool colors (blue) indicate a strong negative correlation. A value near zero (white) suggests an absence of a linear correlation.
-                    </p>
-                    <div id="heatmap-plot" class="w-full h-[552px] plot-container"></div>
-                </section>
-            </div>
-        </main>
+    <div class="control-panel grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-6">
+        <div>
+            <label for="x-axis-select" class="block text-sm font-semibold mb-1">X-axis:</label>
+            <select id="x-axis-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+        </div>
+        <div>
+            <label for="y-axis-select" class="block text-sm font-semibold mb-1">Y-axis:</label>
+            <select id="y-axis-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+        </div>
+        <div>
+            <label for="color-by-select" class="block text-sm font-semibold mb-1">Color by category:</label>
+            <select id="color-by-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+        </div>
+        <div>
+            <label for="filter-category-select" class="block text-sm font-semibold mb-1">Filter metric:</label>
+            <select id="filter-category-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+        </div>
+        <div>
+            <label for="filter-value-select" class="block text-sm font-semibold mb-1">Filter value:</label>
+            <select id="filter-value-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+        </div>
     </div>
 
-    <footer class="text-center mt-12 mb-6 text-slate-500 text-sm">
-    <p>
-        Database and visualization created by Ronald Marquez, Roberto J. Aguado, Blaise Tardy, and Marc Delgado Aguilar (2025).
-    </p>
+    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+        <div class="flex flex-wrap gap-4 bg-slate-800 px-4 py-3 rounded-lg border border-slate-700">
+            <label class="flex items-center space-x-2 text-sm font-medium cursor-pointer">
+                <input type="checkbox" id="log-x-checkbox" class="h-4 w-4 rounded border-slate-600 text-sky-500 focus:ring-sky-500 bg-slate-700">
+                <span>Log scale (X-axis)</span>
+            </label>
+            <label class="flex items-center space-x-2 text-sm font-medium cursor-pointer">
+                <input type="checkbox" id="log-y-checkbox" class="h-4 w-4 rounded border-slate-600 text-sky-500 focus:ring-sky-500 bg-slate-700">
+                <span>Log scale (Y-axis)</span>
+            </label>
+        </div>
+        <button id="download-csv-btn" class="bg-sky-600 hover:bg-sky-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Export raw CSV
+        </button>
+    </div>
     
-    <p class="mt-2">
-        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300">
-            <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg" 
-                 alt="Creative Commons BY 4.0 License" 
-                 style="display:inline-block; height: 22px; margin-right: 5px; vertical-align: middle;" />
-            This database is licensed under a Creative Commons Attribution 4.0 International License.
-        </a>
-    </p>
-    
-    <p class="mt-1">
-        You are free to share and adapt the data for any purpose, provided appropriate credit is given.
-        <a href="https://doi.org/10.5281/zenodo.15808994" target="_blank" rel="noopener noreferrer">
-            <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15808994.svg" 
-                 alt="DOI for this database" 
-                 style="height: 20px; vertical-align: middle; margin-left: 5px;" />
-        </a>
-    </p>
-    
-    <p class="mt-1 italic">
-        Suggested citation:<br/>
-        Marquez, R., Aguado, R. J., Tardy, B., & Delgado-Aguilar, M. (2025). <i>Nanocellulose-stabilized Pickering emulsions data explorer (v1.0.1)</i>. Zenodo. 
-        <a href="https://doi.org/10.5281/zenodo.15808994" target="_blank" rel="noopener noreferrer">
-            https://doi.org/10.5281/zenodo.15808994
-        </a>
-    </p>
-    
-    <p class="mt-1">
-        This is a preliminary database intended to foster collaboration and discussion. The authors will continue reviewing and updating it. 
-        In cases where properties were reported as ranges, averages are shown. Please contact the authors if any numerical errors or inconsistencies are found.
-    </p>
-</footer>
+    <div id="interactive-scatter" class="w-full h-[600px] plot-container p-2 mb-8"></div>
+</section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- UPDATED EXPERIMENTAL DATA SOURCE ---
-            const database = [
-    {
-        'DOI': '10.1021/la200971f', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 4.2, 'Stability_Days': '>60', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Bacterial)', 'Modification': 'None', 'Concentration_wt_percent': null, 'Particle_L_nm': 855, 'Particle_w_nm': 17, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': '<0.001', 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/bm301871k', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 95.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': null, 'Stability_Days': '>60', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.038, 'Particle_L_nm': 189, 'Particle_w_nm': 13, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.123, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/bm400854n', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Toluene', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 25.0, 'Stability_Days': '>60', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Vinyl Acetate', 'Concentration_wt_percent': null, 'Particle_L_nm': 206, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.92, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/bm400854n', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cyclohexane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 20.0, 'Stability_Days': '>60', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Vinyl Cinnamate', 'Concentration_wt_percent': null, 'Particle_L_nm': 407, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.90, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/c2sm26472b', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 5.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 189, 'Particle_w_nm': 13, 'Aspect_Ratio': 13, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.132, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/c2sm26472b', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 5.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Bacterial)', 'Modification': 'None', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 855, 'Particle_w_nm': 17, 'Aspect_Ratio': 47, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.012, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/c2sm26472b', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 5.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Cladophora)', 'Modification': 'None', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 4000, 'Particle_w_nm': 20, 'Aspect_Ratio': 160, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.018, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/la5017577', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 80.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 66.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF', 'Modification': 'Lauroyl Chloride', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': '>1000', 'Particle_w_nm': 8, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 115
-    },
-    {
-        'DOI': '10.1021/la5017577', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 80.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 40.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC', 'Modification': 'Lauroyl Chloride', 'Concentration_wt_percent': 0.4, 'Particle_L_nm': 134, 'Particle_w_nm': 10, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 76
-    },
-    {
-        'DOI': '10.1021/la4032514', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Toluene', 'Oil_Content_vol_percent': 29.0, 'Emulsification_Method': 'High-shear homogenizer + Hand shaking', 'Droplet_Size_um': null, 'Stability_Days': '>6', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'Acetic Acid (C2)', 'Concentration_wt_percent': null, 'Particle_L_nm': null, 'Particle_w_nm': 50, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.83, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': 48.3, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/la4032514', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Toluene', 'Oil_Content_vol_percent': 19.0, 'Emulsification_Method': 'High-shear homogenizer + Hand shaking', 'Droplet_Size_um': 25.0, 'Stability_Days': '>6', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'Hexanoic Acid (C6)', 'Concentration_wt_percent': null, 'Particle_L_nm': null, 'Particle_w_nm': 50, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.90, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': 71.5, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/la4032514', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Toluene', 'Oil_Content_vol_percent': 23.0, 'Emulsification_Method': 'High-shear homogenizer + Hand shaking', 'Droplet_Size_um': null, 'Stability_Days': '>6', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'Dodecanoic Acid (C12)', 'Concentration_wt_percent': null, 'Particle_L_nm': null, 'Particle_w_nm': 50, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.85, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': 53.4, 'Contact_Angle_deg': 133
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2016.06.031', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cinnamaldehyde', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 27.0, 'Stability_Days': '>56', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'MFC', 'Modification': 'None', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>1000', 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2016.06.031', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cinnamaldehyde', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 13.0, 'Stability_Days': '>56', 'Electrolyte_Concentration_mM': 3, 'Type_of_Nanocellulose': 'CNC (from MCC)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': 234, 'Particle_w_nm': 30, 'Aspect_Ratio': 7.8, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.colsurfa.2016.04.025', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 35.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': null, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': null, 'Particle_L_nm': null, 'Particle_w_nm': 6, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_mmol_g': 0.36, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.colsurfa.2016.04.025', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 35.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 18.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF', 'Modification': 'None', 'Concentration_wt_percent': null, 'Particle_L_nm': null, 'Particle_w_nm': 10, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.2, 'Surface_Charge_Density_mmol_g': 0.04, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.colsurfa.2016.04.025', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 35.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 35.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': null, 'Particle_L_nm': null, 'Particle_w_nm': 15, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -87.9, 'Surface_Charge_Density_mmol_g': 1.13, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2017.09.028', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Almond oil', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'Hand shaking + Sonication', 'Droplet_Size_um': null, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (from MCC)', 'Modification': 'None', 'Concentration_wt_percent': 2.0, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.8, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': 37.4, 'Contact_Angle_deg': 69
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2017.09.028', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Almond oil', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'Hand shaking + Sonication', 'Droplet_Size_um': null, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'HTC (from MCC)', 'Modification': 'None', 'Concentration_wt_percent': 1.0, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': 0.8, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': 47.7, 'Contact_Angle_deg': 43
-    },
-    {
-        'DOI': '10.1016/j.nanoen.2017.03.010', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Paraffin', 'Oil_Content_wt_percent': 2.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 0.8, 'Stability_Days': '>180', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': null, 'Particle_w_nm': 4, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/acs.biomac.7b01564', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 5.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Wood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': 150, 'Particle_w_nm': 10, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -40.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/acs.biomac.7b01564', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'High-pressure homogenizer', 'Droplet_Size_um': 0.32, 'Stability_Days': '>240', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Wood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': 150, 'Particle_w_nm': 10, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -40.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/acs.biomac.7b01564', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 30.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'None', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -23.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1021/acs.biomac.7b01564', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'High-pressure homogenizer', 'Droplet_Size_um': 5.0, 'Stability_Days': '>240', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'None', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -23.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2017.12.085', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_wt_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 5.0, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC-I (from MCC)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 201, 'Particle_w_nm': 16.4, 'Aspect_Ratio': 13, 'Crystallinity_Index': 0.71, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.121, 'Surface_Energy_mJ_m2': 57.95, 'Contact_Angle_deg': 44.1
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2017.12.085', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_wt_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 10.0, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC-II (from MCC)', 'Modification': 'Mercerized', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 18.8, 'Particle_w_nm': 10.9, 'Aspect_Ratio': 1.7, 'Crystallinity_Index': 0.73, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.103, 'Surface_Energy_mJ_m2': 67.96, 'Contact_Angle_deg': 26.9
-    },
-    {
-        'DOI': '10.3389/fchem.2018.00409', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.5, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Wood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 3.0, 'Particle_L_nm': 138, 'Particle_w_nm': 8, 'Aspect_Ratio': 17, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -70.0, 'Surface_Charge_Density_e_nm2': 0.11, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.3389/fchem.2018.00409', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Canola oil', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': null, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 100, 'Type_of_Nanocellulose': 'CNC (Wood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.1, 'Particle_L_nm': 138, 'Particle_w_nm': 8, 'Aspect_Ratio': 17, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': 0.11, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/C8GC00134K', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.2, 'Stability_Days': '>210', 'Electrolyte_Concentration_mM': 27, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.41, 'Particle_L_nm': 174, 'Particle_w_nm': 8, 'Aspect_Ratio': 22, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/C8GC00134K', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 1.0, 'Emulsification_Method': 'Sonication + Vortex', 'Droplet_Size_um': 2.2, 'Stability_Days': '>210', 'Electrolyte_Concentration_mM': 27, 'Type_of_Nanocellulose': 'Complex (CNC + CNF)', 'Modification': 'Sulfate groups (CNC) / None (CNF)', 'Concentration_wt_percent': 0.55, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.jcis.2017.11.079', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Styrene', 'Oil_Content_vol_percent': 11.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 30.0, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (from MCC)', 'Modification': 'Stearoylated (C18)', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 108.2
-    },
-    {
-        'DOI': '10.1007/s10570-019-02648-x', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 33.3, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 30.0, 'Stability_Days': '>150', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Cinnamoyl chloride', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -22.4, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 51.4
-    },
-    {
-        'DOI': '10.1007/s10570-019-02648-x', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 33.3, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.4, 'Stability_Days': '>150', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (from modified CNF)', 'Modification': 'Cinnamoyl chloride + Acid Hydrolysis', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': 29, 'Particle_w_nm': 5, 'Aspect_Ratio': 6, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -38.1, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2019.115293', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': null, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (ACC method)', 'Modification': 'None', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 1000, 'Particle_w_nm': 17.5, 'Aspect_Ratio': 57, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2019.115293', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cyclohexane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': null, 'Stability_Days': '<1', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (HPH method)', 'Modification': 'None', 'Concentration_wt_percent': 0.1, 'Particle_L_nm': 1000, 'Particle_w_nm': 17.5, 'Aspect_Ratio': 57, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodchem.2020.127108', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Beeswax', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 4.5, 'Stability_Days': '>56', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Miscanthus floridulus straw)', 'Modification': 'Complex (CNF+CCS)', 'Concentration_wt_percent': 3.0, 'Particle_L_nm': '<10000', 'Particle_w_nm': 33.3, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2020.01.263', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Corn oil', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear + High-pressure homogenizer', 'Droplet_Size_um': 32.0, 'Stability_Days': '>90', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Ginkgo seed shells)', 'Modification': 'Sulfate groups + 10 MPa HPH', 'Concentration_wt_percent': 0.15, 'Particle_L_nm': 1500, 'Particle_w_nm': 50.2, 'Aspect_Ratio': 30.7, 'Crystallinity_Index': 0.72, 'Zeta_Potential_mV': -41.4, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 41.5
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2020.01.263', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Corn oil', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear + High-pressure homogenizer', 'Droplet_Size_um': 10.0, 'Stability_Days': '>90', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Ginkgo seed shells)', 'Modification': 'Sulfate groups + 70 MPa HPH', 'Concentration_wt_percent': 0.15, 'Particle_L_nm': 406, 'Particle_w_nm': 24.7, 'Aspect_Ratio': 16.6, 'Crystallinity_Index': 0.67, 'Zeta_Potential_mV': -52.6, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 65.6
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2020.117483', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Olive oil', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': null, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'None', 'Concentration_wt_percent': 0.7, 'Particle_L_nm': 20000, 'Particle_w_nm': 32.5, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -27.8, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2020.117483', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Olive oil', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 22.0, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'None', 'Concentration_wt_percent': 0.7, 'Particle_L_nm': 1800, 'Particle_w_nm': 25.0, 'Aspect_Ratio': 72, 'Crystallinity_Index': 0.70, 'Zeta_Potential_mV': -25.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 16
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2020.117483', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Olive oil', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 22.0, 'Stability_Days': null, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Wood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.7, 'Particle_L_nm': 100, 'Particle_w_nm': 11.5, 'Aspect_Ratio': 8.7, 'Crystallinity_Index': 0.73, 'Zeta_Potential_mV': -26.1, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 14
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2021.118704', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cinnamon essential oil', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 0.32, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.49, 'Particle_L_nm': 215, 'Particle_w_nm': 13.5, 'Aspect_Ratio': 15.9, 'Crystallinity_Index': 0.74, 'Zeta_Potential_mV': -43.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2023.126134', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Camellia oil', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 0.65, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Bacterial)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.54, 'Particle_L_nm': 210, 'Particle_w_nm': 15, 'Aspect_Ratio': 14, 'Crystallinity_Index': 0.83, 'Zeta_Potential_mV': -39.7, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/d3ra01412f', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Linseed oil', 'Oil_Content_vol_percent': 16.7, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 15.0, 'Stability_Days': '>7', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (from MCC)', 'Modification': 'Cationic (GTMAC/DES)', 'Concentration_wt_percent': 0.84, 'Particle_L_nm': 200, 'Particle_w_nm': 15, 'Aspect_Ratio': 13.3, 'Crystallinity_Index': 0.77, 'Zeta_Potential_mV': 35.2, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 67.5
-    },
-    {
-        'DOI': '10.3390/nano13162353', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Beeswax', 'Oil_Content_wt_percent': 1.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 0.32, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Eucalyptus pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.1, 'Particle_L_nm': '>1000', 'Particle_w_nm': 3.4, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.1, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.3390/nano13162353', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Beeswax', 'Oil_Content_wt_percent': 1.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 0.37, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Eucalyptus pulp)', 'Modification': 'Carboxymethylated', 'Concentration_wt_percent': 0.1, 'Particle_L_nm': null, 'Particle_w_nm': 43.6, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -55.2, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2023.126134', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Camellia oil', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 0.65, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Bacterial)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.54, 'Particle_L_nm': 210, 'Particle_w_nm': 15, 'Aspect_Ratio': 14, 'Crystallinity_Index': 0.83, 'Zeta_Potential_mV': -39.7, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/d3ra01412f', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Linseed oil', 'Oil_Content_vol_percent': 16.7, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 15.0, 'Stability_Days': '>7', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (from MCC)', 'Modification': 'Cationic (GTMAC/DES)', 'Concentration_wt_percent': 0.84, 'Particle_L_nm': 200, 'Particle_w_nm': 15, 'Aspect_Ratio': 13.3, 'Crystallinity_Index': 0.77, 'Zeta_Potential_mV': 35.2, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 67.5
-    },
-    {
-        'DOI': '10.1016/j.carpta.2024.100574', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 100.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Alkylated (C4)', 'Concentration_wt_percent': 0.43, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carpta.2024.100574', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 50.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Alkylated (C6)', 'Concentration_wt_percent': 0.43, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carpta.2024.100574', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 30.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Alkylated (C8)', 'Concentration_wt_percent': 0.43, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carpta.2024.100574', 'Emulsion_Type': 'w/o', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 20.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Alkylated (C10)', 'Concentration_wt_percent': 0.43, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1122/8.0000813', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Paraffin oil', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 40.0, 'Stability_Days': '>60', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 1.5, 'Particle_L_nm': '>2000', 'Particle_w_nm': 30, 'Aspect_Ratio': '>67', 'Crystallinity_Index': null, 'Zeta_Potential_mV': -75.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2024.110427', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Miglyol 812', 'Oil_Content_vol_percent': 1.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 1.0, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Bacterial)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.4, 'Particle_L_nm': 276, 'Particle_w_nm': 15, 'Aspect_Ratio': 18.4, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.6, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2024.110427', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Miglyol 812', 'Oil_Content_vol_percent': 1.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 1.3, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.4, 'Particle_L_nm': 1600, 'Particle_w_nm': 10, 'Aspect_Ratio': 160, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -63.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2024.109781', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Oregano essential oil', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 2.1, 'Stability_Days': '>21', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Carboxylated', 'Concentration_wt_percent': 1.0, 'Particle_L_nm': 210, 'Particle_w_nm': 15, 'Aspect_Ratio': 14, 'Crystallinity_Index': 0.86, 'Zeta_Potential_mV': -42.3, 'Surface_Charge_Density_mmol_g': 0.81, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 61.3
-    },
-    {
-        'DOI': '10.3390/foods13223706', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Thyme essential oil', 'Oil_Content_wt_percent': 2.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 1.5, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Commercial)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.49, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -35.1, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.indcrop.2024.118967', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 27.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Aldehyde-modified (low oxidation)', 'Concentration_wt_percent': 0.75, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.6, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 78.5
-    },
-    {
-        'DOI': '10.1016/j.indcrop.2024.118967', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 15.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Aldehyde-modified (high oxidation)', 'Concentration_wt_percent': 0.75, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -30.5, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 62.3
-    },
-    {
-        'DOI': '10.1016/j.indcrop.2024.120098', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Dodecane', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 20.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Rice bran)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.56, 'Particle_L_nm': 250, 'Particle_w_nm': 16, 'Aspect_Ratio': 15.6, 'Crystallinity_Index': 0.77, 'Zeta_Potential_mV': -41.2, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 58.2
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2024.130319', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Thyme essential oil', 'Oil_Content_vol_percent': 1.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 13.7, 'Stability_Days': '>15', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Eucalyptus pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>1000', 'Particle_w_nm': 3.4, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -41.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2024.130319', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Thyme essential oil', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 20.5, 'Stability_Days': '>15', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Eucalyptus pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>1000', 'Particle_w_nm': 3.4, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -41.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2024.130319', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Thyme essential oil', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 30.2, 'Stability_Days': '>15', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Eucalyptus pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>1000', 'Particle_w_nm': 3.4, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -41.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2024.133609', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Alkyl ketene dimer (AKD)', 'Oil_Content_wt_percent': 15.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 3.1, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.6, 'Particle_L_nm': 500, 'Particle_w_nm': 20, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -42.5, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1002/mame.202300451', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Miglyol 812', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'High-pressure homogenizer', 'Droplet_Size_um': 0.23, 'Stability_Days': '>300', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Wood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': 154, 'Particle_w_nm': 6, 'Aspect_Ratio': 25.7, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.1, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1002/mame.202300451', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Miglyol 812', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'High-pressure homogenizer', 'Droplet_Size_um': 0.25, 'Stability_Days': '>300', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>1000', 'Particle_w_nm': 3.6, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -65.3, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.3390/polym16233346', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Clove essential oil', 'Oil_Content_vol_percent': 1.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 1.2, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'None', 'Concentration_wt_percent': 0.49, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -15.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.3390/polym16233346', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cinnamon essential oil', 'Oil_Content_vol_percent': 1.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 1.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'None', 'Concentration_wt_percent': 0.49, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -15.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.3390/polym16233346', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Lemongrass essential oil', 'Oil_Content_vol_percent': 1.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 0.8, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Bacterial)', 'Modification': 'None', 'Concentration_wt_percent': 0.49, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -15.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1007/s10570-025-06539-2', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Polydimethylsiloxane (PDMS)', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.0, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>2000', 'Particle_w_nm': 15, 'Aspect_Ratio': '>133', 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.3, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1007/s10570-025-06539-2', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Polymethylmethacrylate (PMMA)', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.3, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>2000', 'Particle_w_nm': 15, 'Aspect_Ratio': '>133', 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.3, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1007/s10570-025-06539-2', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Polystyrene (PS)', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.1, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.5, 'Particle_L_nm': '>2000', 'Particle_w_nm': 15, 'Aspect_Ratio': '>133', 'Crystallinity_Index': null, 'Zeta_Potential_mV': -45.3, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.colsurfa.2024.135429', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Miglyol 812', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 9.8, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.05, 'Particle_L_nm': 163, 'Particle_w_nm': 7, 'Aspect_Ratio': 23, 'Crystallinity_Index': 0.86, 'Zeta_Potential_mV': -42.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.colsurfa.2024.135429', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Miglyol 812', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 2.4, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 163, 'Particle_w_nm': 7, 'Aspect_Ratio': 23, 'Crystallinity_Index': 0.86, 'Zeta_Potential_mV': -42.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2025.123348', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Rapeseed oil', 'Oil_Content_vol_percent': 16.7, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 4.9, 'Stability_Days': '>7', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Peanut shell)', 'Modification': 'Grafted PDM/PMAA', 'Concentration_wt_percent': 0.15, 'Particle_L_nm': 275, 'Particle_w_nm': 22.5, 'Aspect_Ratio': 12.2, 'Crystallinity_Index': 0.63, 'Zeta_Potential_mV': 28.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2025.123245', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 7.5, 'Stability_Days': '>180', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Pineapple peel)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 400, 'Particle_w_nm': 5, 'Aspect_Ratio': 80, 'Crystallinity_Index': 0.71, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2025.123245', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_vol_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 4.7, 'Stability_Days': '>180', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Pineapple peel)', 'Modification': 'TEMPO-oxidized', 'Concentration_wt_percent': 1.0, 'Particle_L_nm': 400, 'Particle_w_nm': 5, 'Aspect_Ratio': 80, 'Crystallinity_Index': 0.71, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.carbpol.2025.123694', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Camellia oil', 'Oil_Content_wt_percent': 40.0, 'Emulsification_Method': 'High-pressure homogenizer', 'Droplet_Size_um': 3.9, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Periodate/TEMPO-oxidized', 'Concentration_wt_percent': 0.42, 'Particle_L_nm': 500, 'Particle_w_nm': 8.5, 'Aspect_Ratio': 59, 'Crystallinity_Index': 0.7, 'Zeta_Potential_mV': -45.1, 'Surface_Charge_Density_mmol_g': 1.75, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1039/d4en00920g', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Tetradecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': null, 'Stability_Days': '>14', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Rice straw)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.17, 'Particle_L_nm': 173.2, 'Particle_w_nm': 11.5, 'Aspect_Ratio': 15.1, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -29.4, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 45.2
-    },
-    {
-        'DOI': '10.1039/d4en00920g', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Tetradecane', 'Oil_Content_vol_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 44.4, 'Stability_Days': '>14', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Rice straw)', 'Modification': 'Formic/Sulfuric acid', 'Concentration_wt_percent': 0.17, 'Particle_L_nm': 145.4, 'Particle_w_nm': 9.2, 'Aspect_Ratio': 15.8, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -25.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 68.5
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.144120', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 5.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 0.57, 'Stability_Days': 0, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 3.0, 'Particle_L_nm': 250, 'Particle_w_nm': 10, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -27.57, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.144120', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 20.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 0.76, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 3.0, 'Particle_L_nm': 250, 'Particle_w_nm': 10, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -31.33, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.144120', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 1.95, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 3.0, 'Particle_L_nm': 250, 'Particle_w_nm': 10, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -30.85, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2024.111025', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Beeswax', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 5.84, 'Stability_Days': '>14', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Soybean residue)', 'Modification': 'Complex (L-CNC+CMCS)', 'Concentration_wt_percent': 0.6, 'Particle_L_nm': 406, 'Particle_w_nm': 29, 'Aspect_Ratio': 14, 'Crystallinity_Index': 0.64, 'Zeta_Potential_mV': -40.8, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 42.6
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2024.111025', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Beeswax', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 12.15, 'Stability_Days': '>14', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Soybean residue)', 'Modification': 'Complex (CNF+CMCS)', 'Concentration_wt_percent': 0.6, 'Particle_L_nm': '>1000', 'Particle_w_nm': 15, 'Aspect_Ratio': '>67', 'Crystallinity_Index': 0.56, 'Zeta_Potential_mV': -35.2, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 61.5
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2024.111025', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Beeswax', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 8.52, 'Stability_Days': '>14', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'S-CNC (Soybean residue)', 'Modification': 'Complex (S-CNC+CMCS)', 'Concentration_wt_percent': 0.6, 'Particle_L_nm': 217, 'Particle_w_nm': 34, 'Aspect_Ratio': 6.4, 'Crystallinity_Index': 0.60, 'Zeta_Potential_mV': -28.4, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 53.2
-    },
-    {
-        'DOI': '10.1016/j.fpsl.2025.101439', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Lemon essential oil', 'Oil_Content_vol_percent': 75.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 22.1, 'Stability_Days': '>6', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (from MCC)', 'Modification': 'Complex (TEMPO-CNF+PEI)', 'Concentration_wt_percent': 0.14, 'Particle_L_nm': 350, 'Particle_w_nm': 4, 'Aspect_Ratio': 87.5, 'Crystallinity_Index': 0.79, 'Zeta_Potential_mV': 25.23, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodres.2025.116479', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Soybean oil', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 20.0, 'Stability_Days': '>60', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'Cellulose Nanoribbons', 'Modification': 'Oxidation/Hydrolysis', 'Concentration_wt_percent': 0.05, 'Particle_L_nm': 300, 'Particle_w_nm': 20, 'Aspect_Ratio': 15, 'Crystallinity_Index': 0.79, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1088/1755-1315/1488/1/012111', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Frankincense essential oil', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': null, 'Stability_Days': '>7', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC', 'Modification': 'Complex (CNC + Sodium Alginate)', 'Concentration_wt_percent': 0.27, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1088/1755-1315/1488/1/012111', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Patchouli essential oil', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': null, 'Stability_Days': '>7', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC', 'Modification': 'Complex (CNC + Sodium Alginate)', 'Concentration_wt_percent': 0.27, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1088/1755-1315/1488/1/012111', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Lemongrass essential oil', 'Oil_Content_vol_percent': 10.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': null, 'Stability_Days': '>7', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC', 'Modification': 'Complex (CNC + Sodium Alginate)', 'Concentration_wt_percent': 0.27, 'Particle_L_nm': null, 'Particle_w_nm': null, 'Aspect_Ratio': null, 'Crystallinity_Index': null, 'Zeta_Potential_mV': null, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.lwt.2024.117225', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Soybean oil', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 7.48, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Sugarcane bagasse)', 'Modification': 'Carboxylated', 'Concentration_wt_percent': 0.6, 'Particle_L_nm': 550, 'Particle_w_nm': 7.5, 'Aspect_Ratio': 73, 'Crystallinity_Index': 0.65, 'Zeta_Potential_mV': -56.15, 'Surface_Charge_Density_mmol_g': 1.32, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2024.138192', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Canola oil', 'Oil_Content_wt_percent': 80.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 11.56, 'Stability_Days': '>20', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Amine-functionalized', 'Concentration_wt_percent': 0.6, 'Particle_L_nm': 210, 'Particle_w_nm': 15, 'Aspect_Ratio': 14, 'Crystallinity_Index': 0.76, 'Zeta_Potential_mV': 34.6, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 68.5
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2024.139135', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cinnamaldehyde', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 11.4, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Wood pulp)', 'Modification': 'Complex (Tannic Acid + Carboxymethyl CNF)', 'Concentration_wt_percent': 0.89, 'Particle_L_nm': '>2000', 'Particle_w_nm': 20.3, 'Aspect_Ratio': '>98', 'Crystallinity_Index': null, 'Zeta_Potential_mV': -41.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.140837', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Zanthoxylum bungeanum EO', 'Oil_Content_wt_percent': 20.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 1.54, 'Stability_Days': '>15', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Chlorella algae)', 'Modification': 'None (HCl hydrolysis)', 'Concentration_wt_percent': 0.2, 'Particle_L_nm': 210, 'Particle_w_nm': 15, 'Aspect_Ratio': 14, 'Crystallinity_Index': 0.83, 'Zeta_Potential_mV': -38.98, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 72.8
-    },
-    {
-        'DOI': '10.1016/j.jcis.2024.10.080', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 15.2, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Softwood pulp)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.075, 'Particle_L_nm': 200, 'Particle_w_nm': 10, 'Aspect_Ratio': 20, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -44.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.jcis.2024.10.080', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Hexadecane', 'Oil_Content_vol_percent': 30.0, 'Emulsification_Method': 'Sonication', 'Droplet_Size_um': 18.1, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 50, 'Type_of_Nanocellulose': 'CNC (Softwood pulp)', 'Modification': 'Complex (TA+MC)', 'Concentration_wt_percent': 0.075, 'Particle_L_nm': 200, 'Particle_w_nm': 10, 'Aspect_Ratio': 20, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -30.0, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.molliq.2025.127549', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cardamom essential oil', 'Oil_Content_wt_percent': 30.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 58.1, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Eucalyptus waste)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 0.35, 'Particle_L_nm': 165, 'Particle_w_nm': 8, 'Aspect_Ratio': 20.6, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -49.9, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.molliq.2025.127549', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Cardamom essential oil', 'Oil_Content_wt_percent': 20.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 22.1, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNF (Eucalyptus waste)', 'Modification': 'None', 'Concentration_wt_percent': 0.79, 'Particle_L_nm': '>1000', 'Particle_w_nm': 30, 'Aspect_Ratio': '>33', 'Crystallinity_Index': null, 'Zeta_Potential_mV': -19.5, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.foodhyd.2025.111704', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 10.0, 'Emulsification_Method': 'High-pressure homogenizer', 'Droplet_Size_um': 2.08, 'Stability_Days': '>28', 'Electrolyte_Concentration_mM': 40, 'Type_of_Nanocellulose': 'CNC (Jujube seeds)', 'Modification': 'Oxidized + Ultrasonicated', 'Concentration_wt_percent': 0.8, 'Particle_L_nm': 231.2, 'Particle_w_nm': 15.6, 'Aspect_Ratio': 14.8, 'Crystallinity_Index': 0.75, 'Zeta_Potential_mV': -41.3, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': 67.5
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.144120', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 5.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 0.57, 'Stability_Days': 0, 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 2.85, 'Particle_L_nm': 250, 'Particle_w_nm': 10, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -27.57, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.144120', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 20.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 0.76, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 2.4, 'Particle_L_nm': 250, 'Particle_w_nm': 10, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -31.33, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    },
-    {
-        'DOI': '10.1016/j.ijbiomac.2025.144120', 'Emulsion_Type': 'o/w', 'Oil_Type': 'Sunflower oil', 'Oil_Content_wt_percent': 50.0, 'Emulsification_Method': 'High-shear homogenizer', 'Droplet_Size_um': 1.95, 'Stability_Days': '>30', 'Electrolyte_Concentration_mM': 0, 'Type_of_Nanocellulose': 'CNC (Cotton)', 'Modification': 'Sulfate groups', 'Concentration_wt_percent': 1.5, 'Particle_L_nm': 250, 'Particle_w_nm': 10, 'Aspect_Ratio': 25, 'Crystallinity_Index': null, 'Zeta_Potential_mV': -30.85, 'Surface_Charge_Density_e_nm2': null, 'Surface_Energy_mJ_m2': null, 'Contact_Angle_deg': null
-    }
+<section class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
+    <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
+        <span class="bg-pink-500 w-2 h-8 rounded-full mr-3"></span>
+        2. Multidimensional pathway mapping
+    </h2>
+    <div id="pathway-plot" class="w-full h-[700px] plot-container p-4"></div>
+</section>
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <section class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
+        <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
+            <span class="bg-emerald-500 w-2 h-8 rounded-full mr-3"></span>
+            3. Property distributions
+        </h2>
+        <div class="control-panel grid grid-cols-2 gap-5 mb-6">
+            <div>
+                <label for="dist-y-select" class="block text-sm font-semibold mb-1">Metric (Y-axis):</label>
+                <select id="dist-y-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+            </div>
+            <div>
+                <label for="dist-category-select" class="block text-sm font-semibold mb-1">Group by (X-axis):</label>
+                <select id="dist-category-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
+            </div>
+        </div>
+        <div id="distribution-plot" class="w-full h-[500px] plot-container p-2"></div>
+    </section>
+
+    <section class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
+        <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
+            <span class="bg-purple-500 w-2 h-8 rounded-full mr-3"></span>
+            4. Pairwise correlation matrix
+        </h2>
+        <div id="heatmap-plot" class="w-full h-[585px] plot-container p-2"></div>
+    </section>
+</div>
+
+</main>
+
+<footer class="text-center mt-16 mb-8 text-slate-500 text-sm border-t border-slate-800 pt-8 flex flex-col items-center gap-4">
+    <div class="mt-4">
+        <p>Living meta-analysis presented at the <a href="https://www.ewlp2026.org/" target="_blank" class="text-sky-400 hover:text-sky-300 transition-colors font-medium underline">EWLP Conference 2026</a></p>
+        <p>LEPAMAP-PRODIS Research Group. University of Girona. <a href="https://lepamap.udg.edu/" target="_blank" class="text-sky-400 hover:text-sky-300 transition-colors font-medium ml-1">https://lepamap.udg.edu/</a></p>
+    </div>
+</footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+const database = [
+    {
+        'DOI': '10.1039/d5fd00063g', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Food Packaging', 
+        'Particle_Size_nm': 300, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 66
+    },
+    {
+        'DOI': '10.1016/j.carpta.2024.100651', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Packaging', 
+        'Particle_Size_nm': 129, 'Zeta_Potential_mV': -79, 'Contact_Angle_deg': 68.35, 'Tensile_Strength_MPa': 139.7
+    },
+    {
+        'DOI': '10.1016/j.heliyon.2024.e25272', 'Lignin_Type': 'Vanillin Epoxy', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Exchange/Curing', 'Target_Application': 'Engineering Structures', 
+        'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 91.8, 'Tensile_Strength_MPa': 127.78
+    },
+    {'DOI': '10.1021/acs.biomac.0c01596', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 37, 'Zeta_Potential_mV': -37.5, 'Contact_Angle_deg': 61.5, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2025.146904', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'E-NIPS', 'Target_Application': 'Packaging', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 70, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1002/asia.202200671', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Biomedical', 'Particle_Size_nm': 159.7, 'Zeta_Potential_mV': -14.4, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2025.147013', 'Lignin_Type': 'Bagasse Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Vacuum Filtration', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 146, 'Zeta_Potential_mV': -38, 'Contact_Angle_deg': 51.0, 'Tensile_Strength_MPa': 115.5},
+    {'DOI': '10.1021/acsomega.8b01225', 'Lignin_Type': 'Soda Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'In Situ Precipitation', 'Target_Application': 'Multifunctional Composites', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acs.biomac.8b01539', 'Lignin_Type': 'Organosolv Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Casting', 'Target_Application': 'Bioconversion Modeling', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.3390/membranes11030204', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solution Casting', 'Target_Application': 'Membranes', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 84},
+    {'DOI': '10.1021/acs.biomac.9b01745', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Extrusion/3D Printing', 'Target_Application': 'Tissue Engineering', 'Particle_Size_nm': 244, 'Zeta_Potential_mV': -37, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acsami.1c08274', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Electrophoretic Deposition', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 146, 'Zeta_Potential_mV': -40.5, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.3390/polym13244346', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Blending/Casting', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 150, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 68.26},
+    {'DOI': '10.1002/cssc.201402432', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Laccase-Mediated Coupling', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 80, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acsami.3c01880', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Lyophilization', 'Target_Application': 'Hybrid Composites', 'Particle_Size_nm': 83, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.jcis.2024.10.083', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Pickering Emulsion Templating', 'Target_Application': 'Biobased Nanocomposites', 'Particle_Size_nm': 100, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 35, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.envpol.2024.124623', 'Lignin_Type': 'Plant Extract Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Free-Radical Copolymerization', 'Target_Application': 'Soil Remediation', 'Particle_Size_nm': 21.8, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acsnano.5c04945', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Freeze-Casting/Carbonization', 'Target_Application': 'Batteries/Electronics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': -39.9, 'Contact_Angle_deg': 55, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acs.biomac.5b01203', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Spin-Coating', 'Target_Application': 'Bioconversion Modeling', 'Particle_Size_nm': null, 'Zeta_Potential_mV': -22, 'Contact_Angle_deg': 65, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.3390/gels10010059', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Ultrasonic Nebulization', 'Target_Application': 'Water Purification', 'Particle_Size_nm': 80, 'Zeta_Potential_mV': 24, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acsnano.0c10307', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'EISA/Carbonization', 'Target_Application': 'CO2 Capture', 'Particle_Size_nm': 420, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2024.135559', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Free Radical Polymerization', 'Target_Application': 'Wearable Sensors', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/bm020091n', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'Chitosan', 'Synthesis_Method': 'Polyelectrolyte Complexation', 'Target_Application': 'Wastewater Treatment', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.carbpol.2025.123851', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Vapor Diffusion Cross-linking', 'Target_Application': 'Carbon Capture', 'Particle_Size_nm': 196, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acs.biomac.0c00583', 'Lignin_Type': 'Coniferyl Alcohol', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Fenton Reaction', 'Target_Application': 'Active Packaging', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2025.149731', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'Chitin', 'Synthesis_Method': 'Self-Assembly', 'Target_Application': 'Wound Dressing', 'Particle_Size_nm': 380, 'Zeta_Potential_mV': -28.9, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2021.01.050', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Electrospinning', 'Target_Application': 'Tissue Scaffolds', 'Particle_Size_nm': 5.3, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2022.10.198', 'Lignin_Type': 'BCTMP Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Mechanical Fibrillation', 'Target_Application': 'Emulsifiers', 'Particle_Size_nm': 13.3, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2024.130670', 'Lignin_Type': 'Rice Husk Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'PDES Extraction', 'Target_Application': 'Epidermal Sensors', 'Particle_Size_nm': 16.6, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 0.6},
+    {'DOI': '10.1016/j.ijbiomac.2025.142175', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Chemical Crosslinking', 'Target_Application': 'Smart Windows', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 35, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acsnano.4c12946', 'Lignin_Type': 'Nanolignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Nanoprecipitation', 'Target_Application': 'Flexible Electronics', 'Particle_Size_nm': 329, 'Zeta_Potential_mV': -30.8, 'Contact_Angle_deg': 66.2, 'Tensile_Strength_MPa': 33.3},
+    {'DOI': '10.1016/j.ijbiomac.2023.125010', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Cross-Linking/Freeze-Drying', 'Target_Application': 'Wearable Sensors', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.3390/ma11030451', 'Lignin_Type': 'Bio-Lignin', 'Carbohydrate_Type': 'Chitin', 'Synthesis_Method': 'Electrospinning', 'Target_Application': 'Biomedical', 'Particle_Size_nm': 197, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 3.1},
+    {'DOI': '10.1016/j.fpsl.2026.101698', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Shifting', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 110, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 101, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.compositesb.2025.112400', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Vacuum Filtration', 'Target_Application': 'Structural Composites', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1007/s10570-025-06562-3', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Enzymatic Polymerization', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': 40, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 120, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1007/s10924-024-03328-z', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Pickering Emulsion Templating', 'Target_Application': 'Biodegradable Plastics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1007/s10570-021-03847-1', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Physical Crosslinking', 'Target_Application': 'Wastewater Purification', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.biteb.2024.101928', 'Lignin_Type': 'Black Liquor Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solution Casting', 'Target_Application': 'Protective Coatings', 'Particle_Size_nm': 94, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 109, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1007/s10570-025-06394-1', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Free Radical Polymerization', 'Target_Application': 'Wearable Sensors', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 0.22},
+    {'DOI': '10.1016/j.indcrop.2024.119300', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Hydrothermal/Cross-linking', 'Target_Application': 'Antibiotic Removal', 'Particle_Size_nm': 2.8, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.eurpolymj.2022.111204', 'Lignin_Type': 'Dealkaline Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'EISA', 'Target_Application': 'Biomedical Devices', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 92.5, 'Tensile_Strength_MPa': 60},
+    {'DOI': '10.1007/s12034-017-1371-7', 'Lignin_Type': 'Beech Wood Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solvent Casting', 'Target_Application': 'Eco-Friendly Plastics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acssuschemeng.1c01576', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Enzymatic Polymerization', 'Target_Application': 'Biobased Packaging', 'Particle_Size_nm': 40, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 50.4, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acssuschemeng.9b06291', 'Lignin_Type': 'Artificial Lignin', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Emulsion Templating', 'Target_Application': 'Reinforced Plastics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.memsci.2021.119977', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Electrospinning/Ice-Templating', 'Target_Application': 'Air Filtration', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acssuschemeng.8b00805', 'Lignin_Type': 'Kraft Lignin', 'Carbohydrate_Type': 'Chitin', 'Synthesis_Method': 'Dissolution', 'Target_Application': 'Water Purification', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijhydene.2025.04.314', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Gel Casting', 'Target_Application': 'Fuel Cells', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.cej.2025.163852', 'Lignin_Type': 'Lignin NPs', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'One-Pot Mixing', 'Target_Application': 'Agriculture', 'Particle_Size_nm': 45, 'Zeta_Potential_mV': -31.6, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 3.92},
+    {'DOI': '10.1039/d2gc04358k', 'Lignin_Type': 'Dealkaline Lignin', 'Carbohydrate_Type': 'Chitosan', 'Synthesis_Method': 'Self-Assembly', 'Target_Application': 'Food Packaging', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.cej.2024.149360', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNC', 'Synthesis_Method': 'Free-Radical Polymerization', 'Target_Application': 'Energy Storage', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 0.11},
+    {'DOI': '10.1021/acssuschemeng.2c07288', 'Lignin_Type': 'Lignin Powder', 'Carbohydrate_Type': 'CNC/CNF', 'Synthesis_Method': 'Photopolymerization', 'Target_Application': 'Wood Coatings', 'Particle_Size_nm': 74, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acs.langmuir.1c00778', 'Lignin_Type': 'Corncob Lignin', 'Carbohydrate_Type': 'Chitosan', 'Synthesis_Method': 'Microfluidic Precipitation', 'Target_Application': 'Nanocarriers', 'Particle_Size_nm': 180, 'Zeta_Potential_mV': -13, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.ijbiomac.2025.146474', 'Lignin_Type': 'Biomass Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Nanoprecipitation', 'Target_Application': 'Nanofertilizer', 'Particle_Size_nm': 212.8, 'Zeta_Potential_mV': -30.2, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.jenvman.2024.120909', 'Lignin_Type': 'Enzymatic Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Freeze-Forming', 'Target_Application': 'Oil Spill Remediation', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 151, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1039/d4tb00458b', 'Lignin_Type': 'Bagasse Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Chemical Cross-Linking', 'Target_Application': 'Wound Dressings', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1016/j.jenvman.2022.117210', 'Lignin_Type': 'Birch Lignin', 'Carbohydrate_Type': 'TOCNF', 'Synthesis_Method': 'Electrostatic Assembly', 'Target_Application': 'Wastewater Treatment', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.3390/nano11123426', 'Lignin_Type': 'Bagasse Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Vacuum Filtration', 'Target_Application': 'Plastic Replacements', 'Particle_Size_nm': 292, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 112, 'Tensile_Strength_MPa': 70},
+    {'DOI': '10.1016/j.ijbiomac.2020.01.102', 'Lignin_Type': 'Celery Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Solution Casting', 'Target_Application': 'Wastewater Treatment', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': null},
+    {'DOI': '10.1021/acssuschemeng.2c02785', 'Lignin_Type': 'Alkali Lignin', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Continuous Wet-Spinning', 'Target_Application': 'Fiber Composites', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': 143, 'Tensile_Strength_MPa': 684.61},
+    {'DOI': '10.1016/j.compositesb.2022.109803', 'Lignin_Type': 'Lignosulfonate', 'Carbohydrate_Type': 'CNF', 'Synthesis_Method': 'Chemical Cross-Linking', 'Target_Application': 'Flexible Electronics', 'Particle_Size_nm': null, 'Zeta_Potential_mV': null, 'Contact_Angle_deg': null, 'Tensile_Strength_MPa': 146}
 ];
 
-            // --- ENRICHED PUBLICATION DATA ---
-            const publicationData = [
-                {"DOI":"10.1021/la200971f", "Title":"New Pickering Emulsions Stabilized by Bacterial Cellulose Nanocrystals", "Authors":"Kalashnikova, I., et al.", "Publication_Year":2011},
-                {"DOI":"10.1021/bm301871k", "Title":"Surfactant-Free High Internal Phase Emulsions Stabilized by Cellulose Nanocrystals", "Authors":"Capron, I., et al.", "Publication_Year":2013},
-                {"DOI":"10.1021/bm400854n", "Title":"Dispersibility and Emulsion-Stabilizing Effect of Cellulose Nanowhiskers Esterified by Vinyl Acetate and Vinyl Cinnamate", "Authors":"Sèbe, G., et al.", "Publication_Year":2013},
-                {"DOI":"10.1039/c2sm26472b", "Title":"Cellulosic nanorods of various aspect ratios for oil in water Pickering emulsions", "Authors":"Kalashnikova, I., et al.", "Publication_Year":2013},
-                {"DOI":"10.1021/la5017577", "Title":"Preparation of Double Pickering Emulsions Stabilized by Chemically Tailored Nanocelluloses", "Authors":"Cunha, A. G., et al.", "Publication_Year":2014},
-                {"DOI":"10.1021/la4032514", "Title":"Phase Behavior of Medium and High Internal Phase Water-in-Oil Emulsions Stabilized Solely by Hydrophobized Bacterial Cellulose Nanofibrils", "Authors":"Lee, K.-Y., et al.", "Publication_Year":2014},
-                {"DOI":"10.1016/j.foodhyd.2016.06.031", "Title":"On the preparation and antibacterial activity of emulsions stabilized with nanocellulose particles", "Authors":"Mikulcová, V., et al.", "Publication_Year":2016},
-                {"DOI":"10.1016/j.colsurfa.2016.04.025", "Title":"Phase behaviour and droplet size of oil-in-water Pickering emulsions stabilised with plant-derived nanocellulosic materials", "Authors":"Gestranius, M., et al.", "Publication_Year":2016},
-                {"DOI":"10.1016/j.carbpol.2017.09.028", "Title":"The chemical-free production of nanocelluloses from microcrystalline cellulose and their use as Pickering emulsion stabilizer", "Authors":"Buffiere, J., et al.", "Publication_Year":2017},
-                {"DOI":"10.1016/j.nanoen.2017.03.010", "Title":"Cellulose nanofibers enable paraffin encapsulation and the formation of stable thermal regulation nanocomposites", "Authors":"Li, Y., et al.", "Publication_Year":2017},
-                {"DOI":"10.1021/acs.biomac.7b01564", "Title":"Design of Pickering micro and nanoemulsions based on the structural characteristics of nanocelluloses", "Authors":"Jiménez Saelices, C., et al.", "Publication_Year":2018},
-                {"DOI":"10.3389/fchem.2018.00409", "Title":"Pickering Emulsions Electrostatically Stabilized by Cellulose Nanocrystals", "Authors":"Varanasi, S., et al.", "Publication_Year":2018},
-                {"DOI":"10.1016/j.carbpol.2017.12.085", "Title":"Cellulose nanocrystals (CNCs) with different crystalline allomorph for oil in water Pickering emulsions", "Authors":"Li, X., et al.", "Publication_Year":2018},
-                {"DOI":"10.1039/C8GC00134K", "Title":"Pickering emulsions by combining cellulose nanofibrils and nanocrystals: Phase behavior and depletion stabilization", "Authors":"Bai, L., et al.", "Publication_Year":2018},
-                {"DOI":"10.1016/j.jcis.2017.11.079", "Title":"Water-in-oil Pickering emulsions stabilized by stearoylated microcrystalline cellulose", "Authors":"Pang, B., et al.", "Publication_Year":2018},
-                {"DOI":"10.1007/s10570-019-02648-x", "Title":"Pickering emulsions stabilized by hydrophobically modified nanocellulose containing various structural characteristics", "Authors":"Tang, C., et al.", "Publication_Year":2019},
-                {"DOI":"10.1016/j.carbpol.2019.115293", "Title":"Pickering emulsion stabilization by using amphiphilic cellulose nanofibrils prepared by aqueous counter collision", "Authors":"Yokota, S., et al.", "Publication_Year":2019},
-                {"DOI":"10.1016/j.foodchem.2020.127108", "Title":"Edible coating based on beeswax-in-water Pickering emulsion stabilized by cellulose nanofibrils and carboxymethyl chitosan", "Authors":"Xie, B., et al.", "Publication_Year":2020},
-                {"DOI":"10.1016/j.ijbiomac.2020.01.263", "Title":"Production of nanocellulose with different length from ginkgo seed shells and applications for oil in water Pickering emulsions", "Authors":"Ni, Y., et al.", "Publication_Year":2020},
-                {"DOI":"10.1016/j.carbpol.2020.117483", "Title":"Pickering emulsion stabilized with fibrous nanocelluloses: Insight into fiber flexibility-emulsifying capacity relations", "Authors":"Lu, Y., et al.", "Publication_Year":2021},
-                {"DOI":"10.1016/j.carbpol.2021.118704", "Title":"Effect of cellulose nanocrystal-stabilized cinnamon essential oil Pickering emulsions on structure and properties of chitosan composite films", "Authors":"Dong, H., et al.", "Publication_Year":2021},
-                {"DOI":"10.1016/j.ijbiomac.2023.126134", "Title":"A green versatile packaging based on alginate and anthocyanin via incorporating bacterial cellulose nanocrystal-stabilized camellia oil Pickering emulsions", "Authors":"Qi, W., et al.", "Publication_Year":2023},
-                {"DOI":"10.1039/d3ra01412f", "Title":"Cationic CNC-stabilized Pickering emulsions of linseed oil for hydrophobic coatings", "Authors":"Dai, H., et al.", "Publication_Year":2023},
-                {"DOI":"10.3390/nano13162353", "Title":"Stabilization of Beeswax-In-Water Dispersions Using Anionic Cellulose Nanofibers and Their Application in Paper Coating", "Authors":"Bayés, G., et al.", "Publication_Year":2023},
-                {"DOI":"10.1016/j.carpta.2024.100574", "Title":"Enhancing emulsion stability and adsorption of Pickering emulsions using alkylated cellulose nanofibers", "Authors":"Tanzawa, M., et al.", "Publication_Year":2024},
-                {"DOI":"10.1122/8.0000813", "Title":"Influence of cellulose nanofibers on the behavior of Pickering emulsions. Part II: Thixotropy and dynamic-mechanical tests", "Authors":"Cui, S.-M., et al.", "Publication_Year":2024},
-                {"DOI":"10.1016/j.foodhyd.2024.110427", "Title":"Bacterial cellulose nanocrystals or nanofibrils as Pickering stabilizers in low-oil emulsions: A comparative study", "Authors":"Pinto, N. O. F., et al.", "Publication_Year":2024},
-                {"DOI":"10.1016/j.foodhyd.2024.109781", "Title":"Pectin-based film activated with carboxylated cellulose nanocrystals-stabilized oregano essential oil Pickering emulsion", "Authors":"Yang, W., et al.", "Publication_Year":2024},
-                {"DOI":"10.3390/foods13223706", "Title":"Enhancing Antimicrobial Activity of Thyme Essential Oil Through Cellulose Nano Crystals-Stabilized Pickering Emulsions", "Authors":"Romulo, A., et al.", "Publication_Year":2024},
-                {"DOI":"10.1016/j.indcrop.2024.118967", "Title":"Pickering emulsions stabilized by aldehyde-modified cellulose nanofibrils: Stabilization and asphalt recovery application", "Authors":"Lv, J., et al.", "Publication_Year":2024},
-                {"DOI":"10.1016/j.ijbiomac.2024.130319", "Title":"Pickering emulsions of thyme oil in water using oxidized cellulose nanofibers: Towards bio-based active packaging", "Authors":"Aguado, R. J., et al.", "Publication_Year":2024},
-                {"DOI":"10.1016/j.ijbiomac.2024.133609", "Title":"Fabrication of water/oil-resistant paper by nanocellulose stabilized Pickering emulsion and chitosan", "Authors":"Liu, J., et al.", "Publication_Year":2024},
-                {"DOI":"10.1016/j.indcrop.2024.120098", "Title":"Cellulose nanocrystals from rice bran as excellent emulsifiers for independently stabilizing Pickering emulsions", "Authors":"Cai, D., et al.", "Publication_Year":2024},
-                {"DOI":"10.1002/mame.202300451", "Title":"Tailoring Nanostructured Cellulose for Efficient Pickering Emulsions Stabilization", "Authors":"Pirozzi, A., et al.", "Publication_Year":2024},
-                {"DOI":"10.3390/polym16233346", "Title":"Enhancing Starch Film Properties Using Bacterial Nanocellulose-Stabilized Pickering Emulsions", "Authors":"de Almeida, N. T., et al.", "Publication_Year":2024},
-                {"DOI":"10.1007/s10570-025-06539-2", "Title":"Preparation of porous TEMPO-oxidized cellulose nanofiber (TOCNF) composites via Pickering-emulsion template for adsorption of aromatic pollutants", "Authors":"Yang, Z., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.colsurfa.2024.135429", "Title":"Monitoring the interfacial release rate of resveratrol in Pickering emulsions stabilized by cellulose nanocrystals through the control of the surface coverage", "Authors":"Noor, M. A. M., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.carbpol.2025.123348", "Title":"Multi-responsive Pickering emulsions stabilized by amphiphilic cellulose nanocrystals for building smart release systems of hydrophobic drugs", "Authors":"Li, K., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.carbpol.2025.123245", "Title":"The preparation and characterization of pineapple peel cellulose nanofibers and its application in oil-water emulsions", "Authors":"Tian, Y., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.carbpol.2025.123694", "Title":"Excellently stable Camellia oleifera oil Pickering emulsion fabricated based on high carboxyl content cellulose nanofibrils", "Authors":"Wu, J., et al.", "Publication_Year":2025},
-                {"DOI":"10.1039/d4en00920g", "Title":"Promoted solubilization and desorption of petroleum hydrocarbons to remediate contaminated soils using Pickering emulsions stabilized by cellulose nanocrystals", "Authors":"Yang, Y., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.ijbiomac.2025.144120", "Title":"Cellulose nanocrystals (CNC) Pickering emulsions (PEs): Rheological aspects and stability of low-to-medium internal phase", "Authors":"Fahim, H., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.foodhyd.2024.111025", "Title":"Morphologically regulated nanocellulose from soybean residues for stabilizing Pickering emulsions via interfacial interaction", "Authors":"Xue, Y., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.fpsl.2025.101439", "Title":"Antimicrobial packaging activity enhancement by lemon essential oil pickering emulsion stabilized with nanocellulose microgel particles", "Authors":"Cai, F., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.foodres.2025.116479", "Title":"A sustainable and efficient emulsifier for vegetable oil-pickering emulsion based on cellulose nanoribbons", "Authors":"Zhao, Y., et al.", "Publication_Year":2025},
-                {"DOI":"10.1088/1755-1315/1488/1/012111", "Title":"Evaluation of Antimicrobial Activity of Pickering Emulsion Essential oil of Frankincense, Patchouli, and Lemongrass", "Authors":"Hamzah, K. N. & Romulo, A.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.lwt.2024.117225", "Title":"Carboxylated cellulose nanofibrils from sugarcane bagasse as stabilizers for Pickering emulsions", "Authors":"Hu, H., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.ijbiomac.2024.138192", "Title":"Cellulose nanocrystals-based Pickering emulsion with enhanced foliar adhesion and pH responsiveness for intelligent delivery of pesticides", "Authors":"Ding, J.-w., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.ijbiomac.2024.139135", "Title":"Stable Pickering emulsions of cinnamaldehyde were formulated using tannic acid-assisted cellulose nanofibers and applied for mango preservation", "Authors":"Jiang, W., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.ijbiomac.2025.140837", "Title":"Development and characterization of corn starch-based films enhanced with Chlorella vulgaris nanocellulose-stabilized Pickering emulsion of Zanthoxylum bungeanum essential oil for cherry tomato preservation", "Authors":"Zou, X., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.jcis.2024.10.080", "Title":"Wetting and emulsification properties of cellulose nanocrystals modified with tannic acid and alkyl cellulose derivatives", "Authors":"D'Acierno, F. & Capron, I.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.molliq.2025.127549", "Title":"From emulsions to solutions: Cardamom essential oil as a tool for packaging evolution", "Authors":"de Oliveira, É. R., et al.", "Publication_Year":2025},
-                {"DOI":"10.1016/j.foodhyd.2025.111704", "Title":"From agro-waste to functional emulsifiers: Length-optimized cellulose nanocrystals from jujube seeds enhance curcumin delivery in pickering emulsions", "Authors":"Gao, X., et al.", "Publication_Year":2025}
-            ];
+function toSentenceCase(str) {
+    if (!str || String(str).toUpperCase() === 'N/R') return 'N/R';
+    
+    // Maintain common acronyms
+    const abbreviations = ['CNC', 'CNF', 'TOCNF', 'NPs', 'UV-B', 'CO2', 'BCTMP', 'PDES', 'EISA', 'E-NIPS', 'DOI'];
+    
+    let lowerStr = String(str).toLowerCase();
+    let result = lowerStr.charAt(0).toUpperCase() + lowerStr.slice(1);
+    
+    // Restore abbreviations exactly
+    abbreviations.forEach(abbr => {
+        const regex = new RegExp('\\b' + abbr.toLowerCase() + '\\b', 'gi');
+        result = result.replace(regex, abbr);
+    });
+    
+    return result;
+}
 
+const categoryMap = {
+    'Wound dressings': 'Wound dressing',
+    'Free-radical copolymerization': 'Free radical polymerization',
+    'Free-radical polymerization': 'Free radical polymerization',
+    'Chemical crosslinking': 'Chemical cross-linking',
+    'Solution casting': 'Solvent casting',
+    'Wastewater purification': 'Wastewater treatment',
+    'Biomedical': 'Biomedical devices'
+};
 
-            // --- DATA PROCESSING & SETUP ---
-            let processedData = [];
-            const numericalCols = [
-                'Oil_Content_vol_percent', 'Droplet_Size_um', 'Electrolyte_Concentration_mM', 
-                'Concentration_wt_percent', 'Particle_L_nm', 'Particle_w_nm', 
-                'Aspect_Ratio', 'Crystallinity_Index', 'Zeta_Potential_mV', 
-                'Surface_Charge_Density_e_nm2', 'Surface_Energy_mJ_m2', 'Contact_Angle_deg',
-                'Publication_Year'
-            ];
-            const categoricalCols = [
-                'Emulsion_Type', 'Oil_Type', 'Emulsification_Method', 'Stability_Days',
-                'Type_of_Nanocellulose', 'Modification', 'Cellulose_Type', 'Cellulose_Source'
-            ];
-            
-            function downloadCSV(data) {
-                if (!data || data.length === 0) {
-                    alert('No data available to download.');
-                    return;
-                }
+function normalize(str) {
+    let val = toSentenceCase(str);
+    return categoryMap[val] || val;
+}
 
-                const escapeCSV = (value) => {
-                    if (value == null) return '';
-                    const str = String(value);
-                    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
-                        const escapedStr = str.replace(/"/g, '""');
-                        return `"${escapedStr}"`;
-                    }
-                    return str;
-                };
+// Data Keys vs UI Labels Maps
+const labelMap = {
+    'Particle_Size_nm': 'Particle size (nm)',
+    'Zeta_Potential_mV': 'Zeta potential (mV)',
+    'Contact_Angle_deg': 'Contact angle (deg)',
+    'Tensile_Strength_MPa': 'Tensile strength (MPa)',
+    'Lignin_Type': 'Lignin type',
+    'Carbohydrate_Type': 'Carbohydrate type',
+    'Synthesis_Method': 'Synthesis method',
+    'Target_Application': 'Target application'
+};
 
-                const headers = Object.keys(data[0]);
-                const headerRow = headers.join(',');
-                const dataRows = data.map(row => 
-                    headers.map(header => escapeCSV(row[header])).join(',')
-                );
+let processedData = database.map(d => {
+    return {
+        ...d,
+        Particle_Size_nm: d.Particle_Size_nm === null ? null : Number(d.Particle_Size_nm),
+        Zeta_Potential_mV: d.Zeta_Potential_mV === null ? null : Number(d.Zeta_Potential_mV),
+        Contact_Angle_deg: d.Contact_Angle_deg === null ? null : Number(d.Contact_Angle_deg),
+        Tensile_Strength_MPa: d.Tensile_Strength_MPa === null ? null : Number(d.Tensile_Strength_MPa),
+        Lignin_Type: normalize(d.Lignin_Type),
+        Carbohydrate_Type: normalize(d.Carbohydrate_Type),
+        Synthesis_Method: normalize(d.Synthesis_Method),
+        Target_Application: normalize(d.Target_Application)
+    };
+});
 
-                const csvContent = [headerRow, ...dataRows].join('\n');
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                const url = URL.createObjectURL(blob);
-                link.setAttribute('href', url);
-                link.setAttribute('download', 'nanocellulose_emulsion_data.csv');
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-            
-            function getMedian(arr) {
-                if (!arr || arr.length === 0) return 0;
-                const sorted = arr.map(v => parseFloat(String(v).replace('>', ''))).filter(v => v !== null && !isNaN(v)).slice().sort((a, b) => a - b);
-                if (sorted.length === 0) return 0;
-                const mid = Math.floor(sorted.length / 2);
-                return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
-            }
+const numericalCols = ['Particle_Size_nm', 'Zeta_Potential_mV', 'Contact_Angle_deg', 'Tensile_Strength_MPa'];
+const categoricalCols = ['Lignin_Type', 'Carbohydrate_Type', 'Synthesis_Method', 'Target_Application'];
 
-            function preprocessData(db, pubData) {
-                const pubMap = new Map(pubData.map(p => [p.DOI, p]));
-                const medianDroplet = getMedian(db.map(d => d.Droplet_Size_um));
-                const medianAspectRatio = getMedian(db.map(d => d.Aspect_Ratio));
+function populateSelectors() {
+    const selects = {
+        x: document.getElementById('x-axis-select'),
+        y: document.getElementById('y-axis-select'),
+        color: document.getElementById('color-by-select'),
+        filterCat: document.getElementById('filter-category-select'),
+        distY: document.getElementById('dist-y-select'),
+        distCat: document.getElementById('dist-category-select')
+    };
+    
+    Object.values(selects).forEach(s => s.innerHTML = '');
 
-                return db.map(d => {
-                    const pubInfo = pubMap.get(d.DOI) || {};
-                    let rawType = d.Type_of_Nanocellulose || d.Type_of_Nanoparticle || '';
-                    rawType = rawType.replace('CNF', 'CNF').replace('MFC', 'CNF').replace('S-CNC', 'CNC').replace(/CNC-I(I?)/, 'CNC');
-                    
-                    let celluloseType = 'Unknown';
-                    if (rawType.includes('CNC')) celluloseType = 'CNC';
-                    else if (rawType.includes('CNF')) celluloseType = 'CNF';
-                    else if (rawType.includes('HTC')) celluloseType = 'HTC';
-                    else if (rawType.includes('Nanoribbons')) celluloseType = 'Nanoribbons';
-                    
-                    let celluloseSource = 'Unknown';
-                    const match = rawType.match(/\(([^)]+)\)/);
-                    if (match) {
-                        celluloseSource = match[1].split(',')[0].replace('from ', '').trim();
-                    }
-                    
-                    const parseNumeric = (value, median) => {
-                        if (value === null || value === undefined) return median;
-                        if (typeof value === 'string') {
-                            const num = parseFloat(value.replace('>', '').replace('<', ''));
-                            return isNaN(num) ? median : num;
-                        }
-                        return value;
-                    };
+    numericalCols.forEach(col => {
+        const label = labelMap[col];
+        selects.x.add(new Option(label, col));
+        selects.y.add(new Option(label, col));
+        selects.distY.add(new Option(label, col));
+    });
 
-                    const processedEntry = {
-                        ...d,
-                        ...pubInfo,
-                        Cellulose_Type: celluloseType,
-                        Cellulose_Source: celluloseSource,
-                        Droplet_Size_um: parseNumeric(d.Droplet_Size_um, medianDroplet),
-                        Aspect_Ratio: parseNumeric(d.Aspect_Ratio, medianAspectRatio),
-                        Particle_L_nm: parseNumeric(d.Particle_L_nm, null),
-                        Particle_w_nm: parseNumeric(d.Particle_w_nm, null),
-                        Surface_Charge_Density_e_nm2: parseNumeric(d.Surface_Charge_Density_e_nm2, null),
-                    };
+    categoricalCols.forEach(col => {
+        const label = labelMap[col];
+        selects.color.add(new Option(label, col));
+        selects.filterCat.add(new Option(label, col));
+        selects.distCat.add(new Option(label, col));
+    });
 
-                    if (processedEntry.hasOwnProperty('Oil_Content_wt_percent') && !processedEntry.hasOwnProperty('Oil_Content_vol_percent')) {
-                        processedEntry.Oil_Content_vol_percent = processedEntry.Oil_Content_wt_percent;
-                    }
-                    return processedEntry;
-                });
-            }
-            
-            function populateSelectors() {
-                const xSelect = document.getElementById('x-axis-select');
-                const ySelect = document.getElementById('y-axis-select');
-                const colorSelect = document.getElementById('color-by-select');
-                const filterCatSelect = document.getElementById('filter-category-select');
-                const distCatSelect = document.getElementById('dist-category-select');
+    selects.x.value = 'Particle_Size_nm';
+    selects.y.value = 'Tensile_Strength_MPa';
+    selects.color.value = 'Lignin_Type';
+    selects.filterCat.value = 'Carbohydrate_Type';
+    selects.distY.value = 'Tensile_Strength_MPa';
+    selects.distCat.value = 'Lignin_Type';
+    
+    document.getElementById('log-y-checkbox').checked = false;
 
-                [xSelect, ySelect, colorSelect, filterCatSelect, distCatSelect].forEach(s => s.innerHTML = '');
+    updateFilterValueOptions();
+}
 
-                numericalCols.forEach(col => {
-                    xSelect.add(new Option(col, col));
-                    ySelect.add(new Option(col, col));
-                });
+function updateFilterValueOptions() {
+    const filterCat = document.getElementById('filter-category-select').value;
+    const filterValSelect = document.getElementById('filter-value-select');
+    filterValSelect.innerHTML = '<option value="All">All data</option>';
 
-                categoricalCols.forEach(col => {
-                    colorSelect.add(new Option(col, col));
-                    filterCatSelect.add(new Option(col, col));
-                    distCatSelect.add(new Option(col, col));
-                });
-                
-                xSelect.value = 'Concentration_wt_percent';
-                ySelect.value = 'Droplet_Size_um';
-                colorSelect.value = 'Cellulose_Type';
-                filterCatSelect.value = 'Cellulose_Type';
-                distCatSelect.value = 'Cellulose_Type';
-                
-                updateFilterValueOptions();
-            }
-            
-            function updateFilterValueOptions() {
-                const filterCat = document.getElementById('filter-category-select').value;
-                const filterValSelect = document.getElementById('filter-value-select');
-                filterValSelect.innerHTML = '<option value="All">All</option>';
-                
-                if (filterCat && processedData.length > 0) {
-                    const uniqueValues = [...new Set(processedData.map(d => d[filterCat]))];
-                    uniqueValues.sort().forEach(val => {
-                        if (val) filterValSelect.add(new Option(val, val));
-                    });
-                }
-            }
-            
-            function getFilteredData() {
-                const filterCat = document.getElementById('filter-category-select').value;
-                const filterVal = document.getElementById('filter-value-select').value;
-                if (filterVal === 'All' || !filterCat) {
-                    return processedData;
-                }
-                return processedData.filter(d => d[filterCat] == filterVal);
-            }
+    if (filterCat && processedData.length > 0) {
+        const uniqueValues = [...new Set(processedData.map(d => d[filterCat]))].filter(Boolean).sort();
+        uniqueValues.forEach(val => filterValSelect.add(new Option(val, val)));
+    }
+}
 
-            function updateAllPlots() {
-                updateScatterPlot();
-                updateDistributionPlot();
-                drawHeatmap();
-            }
+function getFilteredData() {
+    const filterCat = document.getElementById('filter-category-select').value;
+    const filterVal = document.getElementById('filter-value-select').value;
+    if (filterVal === 'All' || !filterCat) return processedData;
+    return processedData.filter(d => d[filterCat] == filterVal);
+}
 
-            // --- PLOTTING FUNCTIONS ---
-            function updateScatterPlot() {
-                const data = getFilteredData();
-                const xVar = document.getElementById('x-axis-select').value;
-                const yVar = document.getElementById('y-axis-select').value;
-                const colorVar = document.getElementById('color-by-select').value;
-                const logX = document.getElementById('log-x-checkbox').checked;
-                const logY = document.getElementById('log-y-checkbox').checked;
+function updateAllPlots() {
+    updateScatterPlot();
+    updateDistributionPlot();
+    drawHeatmap();
+    drawPathway();
+}
 
-                const traces = [];
-                const groups = [...new Set(data.map(d => d[colorVar]))];
+function updateScatterPlot() {
+    const data = getFilteredData();
+    const xVar = document.getElementById('x-axis-select').value;
+    const yVar = document.getElementById('y-axis-select').value;
+    const colorVar = document.getElementById('color-by-select').value;
+    const logX = document.getElementById('log-x-checkbox').checked;
+    const logY = document.getElementById('log-y-checkbox').checked;
 
-                groups.forEach(group => {
-                    const groupData = data.filter(d => d[colorVar] === group);
-                    traces.push({
-                        x: groupData.map(d => d[xVar]),
-                        y: groupData.map(d => d[yVar]),
-                        customdata: groupData.map(d => d.DOI),
-                        text: groupData.map(d => `<b>${d.Title || 'N/A'}</b><br>Authors: ${d.Authors || 'N/A'}<br>Year: ${d.Publication_Year || 'N/A'}<br>DOI: ${d.DOI}<br>--------------------<br>Type: ${d.Cellulose_Type} (${d.Cellulose_Source})<br>Modification: ${d.Modification}`),
-                        hoverinfo: 'text',
-                        mode: 'markers',
-                        type: 'scatter',
-                        name: group || 'N/A',
-                        marker: { size: 10, opacity: 0.8 }
-                    });
-                });
+    const traces = [];
+    const groups = [...new Set(data.map(d => d[colorVar]))].filter(Boolean);
+    const colorPalette = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
 
-                const layout = {
-                    xaxis: { title: xVar, type: logX ? 'log' : 'linear', autorange: true, gridcolor: '#475569', zerolinecolor: '#475569' },
-                    yaxis: { title: yVar, type: logY ? 'log' : 'linear', autorange: true, gridcolor: '#475569', zerolinecolor: '#475569' },
-                    showlegend: true,
-                    legend: { font: { color: '#e2e8f0' }, orientation: 'h', y: -0.2},
-                    paper_bgcolor: 'transparent',
-                    plot_bgcolor: 'transparent',
-                    font: { color: '#e2e8f0' },
-                    margin: { l: 60, r: 20, b: 60, t: 40 }
-                };
-                Plotly.react('interactive-scatter', traces, layout, {responsive: true});
-            }
+    groups.forEach((group, index) => {
+        const groupColor = colorPalette[index % colorPalette.length];
+        const groupData = data.filter(d => d[colorVar] === group && d[xVar] !== null && d[yVar] !== null);
+        if(groupData.length === 0) return;
 
-            function updateDistributionPlot() {
-                const data = getFilteredData();
-                const catVar = document.getElementById('dist-category-select').value;
+        let xVals = groupData.map(d => d[xVar]);
+        let yVals = groupData.map(d => d[yVar]);
 
-                const traces = [];
-                const groups = [...new Set(data.map(d => d[catVar]))].sort();
-
-                groups.forEach(group => {
-                    const groupData = data.filter(d => d[catVar] === group);
-                    traces.push({
-                        y: groupData.map(d => d.Droplet_Size_um),
-                        type: 'box',
-                        name: group || 'N/A',
-                        boxpoints: 'all',
-                        jitter: 0.5,
-                        pointpos: -1.8,
-                    });
-                });
-
-                const layout = {
-                    yaxis: { title: 'Droplet Size (μm)', zeroline: false, gridcolor: '#475569', type: 'log', autorange: true },
-                    xaxis: { title: catVar, tickangle: -45 },
-                    showlegend: false,
-                    paper_bgcolor: 'transparent',
-                    plot_bgcolor: 'transparent',
-                    font: { color: '#e2e8f0' },
-                    margin: { l: 60, r: 20, b: 120, t: 40 },
-                    colorway: ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
-                };
-                Plotly.newPlot('distribution-plot', traces, layout, {responsive: true});
-            }
-
-            function drawHeatmap() {
-                const numData = processedData.map(row => {
-                    let newRow = {};
-                    numericalCols.forEach(col => {
-                        newRow[col] = (row[col] === null || row[col] === undefined) ? NaN : row[col];
-                    });
-                    return newRow;
-                });
-
-                const columns = numericalCols.filter(c => c !== 'Publication_Year');
-                const matrix = [];
-                for (let i = 0; i < columns.length; i++) {
-                    const row = [];
-                    for (let j = 0; j < columns.length; j++) {
-                        const col1 = numData.map(d => d[columns[i]]);
-                        const col2 = numData.map(d => d[columns[j]]);
-                        row.push(calculateCorrelation(col1, col2));
-                    }
-                    matrix.push(row);
-                }
-
-                const trace = {
-                    z: matrix,
-                    x: columns,
-                    y: columns,
-                    type: 'heatmap',
-                    colorscale: 'RdBu',
-                    zmin: -1,
-                    zmax: 1
-                };
-
-                const layout = {
-                    title: '',
-                    paper_bgcolor: 'transparent',
-                    plot_bgcolor: 'transparent',
-                    font: { color: '#e2e8f0' },
-                    xaxis: { tickangle: -45 },
-                    margin: { l: 150, r: 20, b: 150, t: 40 }
-                };
-
-                Plotly.newPlot('heatmap-plot', [trace], layout, {responsive: true});
-            }
-
-            function calculateCorrelation(x, y) {
-                const validPairs = x.map((val, i) => [val, y[i]]).filter(([valX, valY]) => !isNaN(valX) && !isNaN(valY));
-                if (validPairs.length < 2) return 0;
-
-                const n = validPairs.length;
-                let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
-                
-                validPairs.forEach(([valX, valY]) => {
-                    sumX += valX;
-                    sumY += valY;
-                    sumXY += valX * valY;
-                    sumX2 += valX * valX;
-                    sumY2 += valY * valY;
-                });
-
-                const num = (n * sumXY) - (sumX * sumY);
-                const den = Math.sqrt(((n * sumX2) - (sumX * sumX)) * ((n * sumY2) - (sumY * sumY)));
-                return den === 0 ? 0 : num / den;
-            }
-
-            // --- INITIALIZATION & EVENT LISTENERS ---
-            function init() {
-                processedData = preprocessData(database, publicationData);
-                populateSelectors();
-                
-                updateAllPlots();
-
-                const scatterPlot = document.getElementById('interactive-scatter');
-                scatterPlot.on('plotly_click', function(data) {
-                    if (data.points.length > 0) {
-                        const point = data.points[0];
-                        const doi = point.customdata;
-                        if (doi) {
-                            let url;
-                            if (doi.startsWith('SSRN:')) {
-                                const abstractId = doi.replace('SSRN:', '').trim();
-                                url = `https://papers.ssrn.com/sol3/papers.cfm?abstract_id=${abstractId}`;
-                            } else {
-                                url = `https://doi.org/${doi}`;
-                            }
-                            
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.target = '_blank';
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }
-                    }
-                });
-
-                document.getElementById('x-axis-select').addEventListener('change', updateScatterPlot);
-                document.getElementById('y-axis-select').addEventListener('change', updateScatterPlot);
-                document.getElementById('color-by-select').addEventListener('change', updateScatterPlot);
-                document.getElementById('filter-category-select').addEventListener('change', () => {
-                    updateFilterValueOptions();
-                    updateAllPlots();
-                });
-                document.getElementById('filter-value-select').addEventListener('change', updateAllPlots);
-                document.getElementById('log-x-checkbox').addEventListener('change', updateScatterPlot);
-                document.getElementById('log-y-checkbox').addEventListener('change', updateScatterPlot);
-                document.getElementById('dist-category-select').addEventListener('change', updateDistributionPlot);
-                document.getElementById('download-csv-btn').addEventListener('click', () => downloadCSV(processedData));
-            }
-            
-            init();
+        traces.push({
+            x: xVals,
+            y: yVals,
+            customdata: groupData.map(d => d.DOI),
+            text: groupData.map(d => `<b>DOI:</b> ${d.DOI}<br><b>Lignin:</b> ${d.Lignin_Type}<br><b>Carbohydrate:</b> ${d.Carbohydrate_Type}<br><b>Method:</b> ${d.Synthesis_Method}`),
+            hoverinfo: 'text',
+            mode: 'markers',
+            type: 'scatter',
+            name: group,
+            marker: { size: 12, opacity: 0.8, color: groupColor, line: {width: 1, color: '#0f172a'} }
         });
-    </script>
+    });
+
+    const layout = {
+        xaxis: { title: labelMap[xVar], type: logX ? 'log' : 'linear', gridcolor: '#334155', zerolinecolor: '#475569' },
+        yaxis: { title: labelMap[yVar], type: logY ? 'log' : 'linear', gridcolor: '#334155', zerolinecolor: '#475569' },
+        showlegend: true,
+        legend: { font: { color: '#e2e8f0' }, orientation: 'h', y: -0.2},
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { color: '#e2e8f0' },
+        margin: { l: 60, r: 20, b: 60, t: 40 },
+        hovermode: 'closest'
+    };
+
+    Plotly.react('interactive-scatter', traces, layout, {responsive: true});
+}
+
+function updateDistributionPlot() {
+    const data = getFilteredData();
+    const yVar = document.getElementById('dist-y-select').value;
+    const catVar = document.getElementById('dist-category-select').value;
+
+    const traces = [];
+    const groups = [...new Set(data.map(d => d[catVar]))].filter(Boolean).sort();
+
+    groups.forEach(group => {
+        const groupData = data.filter(d => d[catVar] === group && d[yVar] !== null);
+        if(groupData.length === 0) return;
+
+        traces.push({
+            y: groupData.map(d => d[yVar]),
+            type: 'box',
+            name: group,
+            boxpoints: 'all',
+            jitter: 0.5,
+            pointpos: -1.8,
+            marker: { size: 6 }
+        });
+    });
+
+    const layout = {
+        yaxis: { title: labelMap[yVar], gridcolor: '#334155', zeroline: false },
+        xaxis: { title: labelMap[catVar], tickangle: -45 },
+        showlegend: false,
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { color: '#e2e8f0' },
+        margin: { l: 60, r: 20, b: 140, t: 40 },
+        colorway: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+    };
+
+    Plotly.newPlot('distribution-plot', traces, layout, {responsive: true});
+}
+
+function calculateCorrelation(x, y) {
+    let validPairs = [];
+    for (let i = 0; i < x.length; i++) {
+        if (x[i] !== null && y[i] !== null && !isNaN(x[i]) && !isNaN(y[i])) {
+            validPairs.push([x[i], y[i]]);
+        }
+    }
+    
+    if (validPairs.length < 3) return null;
+    
+    let n = validPairs.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+    validPairs.forEach(([valX, valY]) => {
+        sumX += valX; sumY += valY; sumXY += valX * valY;
+        sumX2 += valX * valX; sumY2 += valY * valY;
+    });
+    
+    let num = (n * sumXY) - (sumX * sumY);
+    let den = Math.sqrt(((n * sumX2) - (sumX * sumX)) * ((n * sumY2) - (sumY * sumY)));
+    return den === 0 ? 0 : num / den;
+}
+
+function drawHeatmap() {
+    const matrix = [];
+    
+    for (let i = 0; i < numericalCols.length; i++) {
+        const row = [];
+        for (let j = 0; j < numericalCols.length; j++) {
+            const col1 = processedData.map(d => d[numericalCols[i]]);
+            const col2 = processedData.map(d => d[numericalCols[j]]);
+            row.push(calculateCorrelation(col1, col2));
+        }
+        matrix.push(row);
+    }
+
+    const labels = numericalCols.map(c => labelMap[c]);
+    const trace = {
+        z: matrix,
+        x: labels,
+        y: labels,
+        type: 'heatmap',
+        colorscale: 'RdBu',
+        zmin: -1,
+        zmax: 1,
+        showscale: true
+    };
+
+    const layout = {
+        title: '',
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { color: '#e2e8f0' },
+        xaxis: { tickangle: -45 },
+        margin: { l: 150, r: 20, b: 150, t: 40 }
+    };
+
+    Plotly.newPlot('heatmap-plot', [trace], layout, {responsive: true});
+}
+
+function drawPathway() {
+    const data = getFilteredData();
+    if(data.length === 0) return;
+
+    const cols = ['Lignin_Type', 'Carbohydrate_Type', 'Synthesis_Method', 'Target_Application'];
+    const colLabels = ['Lignin type', 'Carbohydrate precursor', 'Synthesis method', 'Final application'];
+    
+    const yMappings = {};
+    cols.forEach(col => {
+        // Reverse sorting guarantees that 'A' gets placed at the top (y=1) and 'Z' at the bottom (y=0)
+        const uniqueVals = [...new Set(data.map(d => d[col] || 'N/R'))].sort().reverse();
+        yMappings[col] = {};
+        uniqueVals.forEach((val, i) => {
+            yMappings[col][val] = uniqueVals.length > 1 ? i / (uniqueVals.length - 1) : 0.5;
+        });
+    });
+
+    const uniqueLignins = [...new Set(data.map(d => d.Lignin_Type || 'N/R'))].sort();
+    const colorPalette = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e'];
+
+    const traces = [];
+    data.forEach((d, i) => {
+        const xVals = [0, 1, 2, 3];
+        
+        // Add deterministic jitter to spread out overlapping lines and make them individually selectable
+        const yVals = cols.map(col => {
+            const baseY = yMappings[col][d[col] || 'N/R'];
+            const jitter = (((i * 137) % 100) / 100) * 0.04 - 0.02; // Small +/- vertical offset
+            return baseY + jitter;
+        });
+        
+        const hoverTxt = `<b>DOI:</b> ${d.DOI}<br><b>Lignin:</b> ${d.Lignin_Type || 'N/R'}<br><b>Carbo:</b> ${d.Carbohydrate_Type || 'N/R'}<br><b>Method:</b> ${d.Synthesis_Method || 'N/R'}<br><b>App:</b> ${d.Target_Application || 'N/R'}<br><i>Click to open article</i>`;
+        
+        const colorIdx = uniqueLignins.indexOf(d.Lignin_Type || 'N/R') % colorPalette.length;
+        const lineColor = colorPalette[colorIdx];
+
+        traces.push({
+            x: xVals,
+            y: yVals,
+            mode: 'lines+markers',
+            type: 'scatter',
+            line: { width: 3, color: lineColor, shape: 'spline', smoothing: 1 },
+            marker: { size: 6, color: lineColor, line: {width: 0.5, color: '#0f172a'} },
+            text: hoverTxt, // Unified text string to enable hovering on the line segments
+            hoverinfo: 'text',
+            hoveron: 'points+lines', // Crucial: explicitly enables line hovering
+            showlegend: false,
+            name: d.DOI,
+            opacity: 0.7
+        });
+    });
+
+    const annotations = [];
+    cols.forEach((col, xIdx) => {
+        const uniqueVals = Object.keys(yMappings[col]);
+        uniqueVals.forEach(val => {
+            annotations.push({
+                x: xIdx,
+                y: yMappings[col][val],
+                text: val,
+                showarrow: false,
+                xanchor: xIdx === 0 ? 'right' : (xIdx === 3 ? 'left' : 'center'),
+                yanchor: 'middle',
+                xshift: xIdx === 0 ? -15 : (xIdx === 3 ? 15 : 0),
+                font: { size: 10, color: '#f8fafc' },
+                bgcolor: 'rgba(15, 23, 42, 0.85)',
+                bordercolor: '#334155',
+                borderwidth: 1,
+                borderpad: 3
+            });
+        });
+    });
+
+    const layout = {
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        xaxis: {
+            tickvals: [0, 1, 2, 3],
+            ticktext: colLabels,
+            showgrid: false,
+            zeroline: false,
+            tickfont: { size: 14, color: '#e2e8f0', weight: 'bold' },
+            range: [-0.2, 3.2]
+        },
+        yaxis: {
+            showticklabels: false,
+            showgrid: false,
+            zeroline: false,
+            range: [-0.05, 1.05]
+        },
+        margin: { l: 200, r: 200, b: 40, t: 60 },
+        hovermode: 'closest',
+        hoverdistance: 25, // Extends the catch radius for easier line hovering
+        annotations: annotations
+    };
+
+    Plotly.react('pathway-plot', traces, layout, {responsive: true});
+    
+    const pathwayPlot = document.getElementById('pathway-plot');
+    
+    pathwayPlot.removeAllListeners('plotly_hover');
+    pathwayPlot.removeAllListeners('plotly_unhover');
+    pathwayPlot.removeAllListeners('plotly_click');
+
+    pathwayPlot.on('plotly_hover', function(hoverData) {
+        if (hoverData.points && hoverData.points.length > 0) {
+            const pt = hoverData.points[0];
+            const numTraces = pathwayPlot.data.length;
+            
+            // Prevent highlighting if hovering near the dense Carbohydrate column (x=1)
+            if (pt.x > 0.6 && pt.x < 1.4) {
+                const opacities = new Array(numTraces).fill(0.7);
+                const widths = new Array(numTraces).fill(3);
+                Plotly.restyle('pathway-plot', { opacity: opacities, 'line.width': widths });
+                pathwayPlot.style.cursor = '';
+                return;
+            }
+
+            const curveNum = pt.curveNumber;
+            const opacities = new Array(numTraces).fill(0.05);
+            const widths = new Array(numTraces).fill(1.5);
+            
+            opacities[curveNum] = 1;
+            widths[curveNum] = 5;
+            
+            Plotly.restyle('pathway-plot', { opacity: opacities, 'line.width': widths });
+            pathwayPlot.style.cursor = 'pointer';
+        }
+    });
+
+    pathwayPlot.on('plotly_unhover', function() {
+        const numTraces = pathwayPlot.data.length;
+        const opacities = new Array(numTraces).fill(0.7);
+        const widths = new Array(numTraces).fill(3);
+        
+        Plotly.restyle('pathway-plot', { opacity: opacities, 'line.width': widths });
+        pathwayPlot.style.cursor = '';
+    });
+
+    pathwayPlot.on('plotly_click', function(clickData) {
+        if (clickData.points && clickData.points.length > 0) {
+            const rawDoi = clickData.points[0].data.name; // Get DOI directly from trace name 
+            if (rawDoi) {
+                const doiMatch = rawDoi.match(/(10\.\d{4,9}\/[-._;()/:A-Z0-9a-z]+)/i);
+                if (doiMatch && doiMatch[0]) {
+                    window.open(`https://doi.org/${doiMatch[0]}`, '_blank');
+                } else {
+                    window.open(`https://scholar.google.com/scholar?q=${encodeURIComponent(rawDoi)}`, '_blank');
+                }
+            }
+        }
+    });
+}
+
+function downloadCSV() {
+    const headers = Object.keys(processedData[0]);
+    const csvContent = [
+        headers.join(','),
+        ...processedData.map(row => headers.map(h => {
+            let val = row[h] === null ? '' : String(row[h]);
+            return val.includes(',') ? `"${val}"` : val;
+        }).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', 'lignin_nanocellulose_hybrids.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function init() {
+    populateSelectors();
+    updateAllPlots();
+
+    const scatterPlot = document.getElementById('interactive-scatter');
+    
+    scatterPlot.on('plotly_click', function(data) {
+        if (data.points && data.points.length > 0) {
+            const rawDoi = data.points[0].customdata; 
+            if (rawDoi) {
+                const doiMatch = rawDoi.match(/(10\.\d{4,9}\/[-._;()/:A-Z0-9a-z]+)/i);
+                if (doiMatch && doiMatch[0]) {
+                    window.open(`https://doi.org/${doiMatch[0]}`, '_blank');
+                } else {
+                    window.open(`https://scholar.google.com/scholar?q=${encodeURIComponent(rawDoi)}`, '_blank');
+                }
+            }
+        }
+    });
+
+    ['x-axis-select', 'y-axis-select', 'color-by-select', 'log-x-checkbox', 'log-y-checkbox'].forEach(id => {
+        document.getElementById(id).addEventListener('change', updateScatterPlot);
+    });
+    
+    document.getElementById('filter-category-select').addEventListener('change', () => {
+        updateFilterValueOptions();
+        updateAllPlots();
+    });
+    
+    document.getElementById('filter-value-select').addEventListener('change', updateAllPlots);
+    
+    ['dist-y-select', 'dist-category-select'].forEach(id => {
+        document.getElementById(id).addEventListener('change', updateDistributionPlot);
+    });
+    
+    document.getElementById('download-csv-btn').addEventListener('click', downloadCSV);
+}
+
+init();
+});
+</script>
 </body>
 </html>

@@ -33,6 +33,46 @@ body {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
+.evidence-grid {
+    display: grid;
+    grid-template-columns: minmax(190px, 1.45fr) repeat(6, minmax(125px, 1fr));
+    gap: 8px;
+    min-width: 1050px;
+}
+.evidence-cell {
+    min-height: 62px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    font-weight: 700;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.evidence-cell:hover, .evidence-cell:focus-visible {
+    transform: translateY(-2px);
+    border-color: #e9d5ff;
+    box-shadow: 0 8px 22px rgba(168,85,247,.22);
+    outline: none;
+}
+.evidence-cell[aria-pressed="true"] { border: 2px solid #f5d0fe; box-shadow: 0 0 0 2px rgba(217,70,239,.3); }
+.evidence-level-0 { background: #263244; color: #cbd5e1; }
+.evidence-level-1 { background: #4b3971; color: #f8fafc; }
+.evidence-level-2 { background: #7547aa; color: #ffffff; }
+.evidence-level-3 { background: #a855f7; color: #ffffff; }
+#evidence-section { background: rgba(30,41,59,.55); border: 1px solid #475569; border-radius: 16px; padding: 32px; }
+#evidence-section h2 { display: flex; align-items: center; color: #fff; font-size: 24px; font-weight: 700; margin: 0 0 12px; }
+#evidence-section h2 span { display: inline-block; width: 8px; height: 32px; margin-right: 12px; border-radius: 8px; background: #a855f7; }
+#evidence-section > p { line-height: 1.5; }
+#evidence-section .control-panel { display: flex; align-items: end; flex-wrap: wrap; gap: 16px; margin: 20px 0; }
+#evidence-section select { background: #1e293b; color: #fff; border: 1px solid #64748b; border-radius: 8px; padding: 10px 12px; }
+#evidence-section #evidence-detail { background: rgba(15,23,42,.65); border: 1px solid #475569; border-radius: 12px; padding: 20px; margin-top: 20px; }
+#evidence-section #evidence-detail h3 { color: #fff; font-size: 18px; font-weight: 700; margin: 0; }
+#evidence-section #evidence-detail a { color: #7dd3fc; }
+#evidence-section #evidence-detail article { border: 1px solid #475569; background: rgba(15,23,42,.85); border-radius: 12px; padding: 16px; }
+#evidence-section .evidence-grid-wrap { overflow-x: auto; max-width: 100%; padding: 16px; }
+#evidence-section .evidence-detail-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+#evidence-section [aria-label="Evidence count legend"] { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px; }
+@media (max-width: 900px) { #evidence-section .evidence-detail-cards { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 640px) { #evidence-section { padding: 20px; } }
+@media (max-width: 640px) { #evidence-section .evidence-detail-cards { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -108,7 +148,6 @@ body {
         </button>
     </div>
     
-    <p class="text-sm text-slate-400 mb-3">Numeric charts show only single reported measurements with a clear unit and material. Ranges and multiple formulations remain available in the study records below.</p>
     <p id="scatter-count" class="text-sm text-slate-400 mb-2" aria-live="polite"></p>
     <div id="interactive-scatter" class="w-full h-[600px] plot-container p-2 mb-8"></div>
 </section>
@@ -121,7 +160,7 @@ body {
     <div id="pathway-plot" class="w-full h-[700px] plot-container p-4"></div>
 </section>
 
-<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+<div class="space-y-8">
     <section class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
         <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
             <span class="bg-emerald-500 w-2 h-8 rounded-full mr-3"></span>
@@ -129,25 +168,47 @@ body {
         </h2>
         <div class="control-panel grid grid-cols-2 gap-5 mb-6">
             <div>
-                <label for="dist-y-select" class="block text-sm font-semibold mb-1">Metric (Y-axis):</label>
+                <label for="dist-y-select" class="block text-sm font-semibold mb-1">Metric:</label>
                 <select id="dist-y-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
             </div>
-            <div>
+            <div id="dist-category-control">
                 <label for="dist-category-select" class="block text-sm font-semibold mb-1">Group by (X-axis):</label>
                 <select id="dist-category-select" class="block w-full px-3 py-2.5 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm"></select>
             </div>
         </div>
+        <div id="tensile-controls" class="hidden grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <div><label for="tensile-specimen-select" class="block text-sm font-semibold mb-1">Specimen type</label><select id="tensile-specimen-select" class="block w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white"></select></div>
+            <div><label for="tensile-condition-select" class="block text-sm font-semibold mb-1">Test condition</label><select id="tensile-condition-select" class="block w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white"></select></div>
+        </div>
         <p id="distribution-count" class="text-sm text-slate-400 mb-2" aria-live="polite"></p>
+        <p id="tensile-explanation" class="hidden text-xs text-slate-300 mb-3">Each mark is one reported formulation. A line with endpoints shows a reported range across formulations; whiskers show a reported standard deviation. Dry, wet and hydrated results are viewed separately. Click a mark to open the article.</p>
         <div id="distribution-plot" class="w-full h-[500px] plot-container p-2"></div>
     </section>
 
-    <section class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
-        <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
+    <section id="evidence-section" class="bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl">
+        <h2 class="text-2xl font-bold mb-3 text-white flex items-center">
             <span class="bg-purple-500 w-2 h-8 rounded-full mr-3"></span>
-            4. Pairwise correlation matrix
+            4. Raw materials to target performance
         </h2>
-        <p class="text-sm text-slate-400 mb-2">Pearson correlation requires at least five paired records. Blank cells have too little comparable data.</p>
-        <div id="heatmap-plot" class="w-full h-[585px] plot-container p-2"></div>
+        <p class="text-sm text-slate-300 mb-5">Choose an application and explore which raw-material properties are reported alongside each target outcome.</p>
+        <div class="control-panel flex flex-wrap items-end gap-4 mb-4">
+            <div class="min-w-[260px]">
+                <label for="evidence-application" class="block text-sm font-semibold mb-1">Target application</label>
+                <select id="evidence-application" class="block w-full px-3 py-2.5 rounded-lg"></select>
+            </div>
+            <label class="flex items-center gap-2 text-sm text-slate-200 pb-2 cursor-pointer"><input id="evidence-include-mfc" type="checkbox" checked class="accent-purple-500">Include MFC</label>
+            <span id="evidence-scope" class="text-sm text-slate-400 pb-2" aria-live="polite"></span>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 text-xs text-slate-300 mb-5" aria-label="Evidence count legend">
+            <span>Articles reporting both fields:</span>
+            <span class="evidence-level-0 px-3 py-1 rounded">0</span>
+            <span class="evidence-level-1 px-3 py-1 rounded">1–2</span>
+            <span class="evidence-level-2 px-3 py-1 rounded">3–5</span>
+            <span class="evidence-level-3 px-3 py-1 rounded">6+</span>
+        </div>
+        <div class="evidence-grid-wrap overflow-x-auto plot-container p-4"><div id="evidence-grid" class="evidence-grid"></div></div>
+        <div id="evidence-detail" class="plot-container p-5 mt-5" aria-live="polite"></div>
+        <p class="text-xs text-slate-400 mt-5">These are article-level coverage counts. Contact angle and tensile strength have numeric reports; UV, antibacterial, antioxidant and barrier/other outcomes may be qualitative. Raw-material values and outcomes may come from different formulations or test conditions. Click a cell to inspect the articles.</p>
     </section>
 </div>
 
@@ -171,7 +232,7 @@ function toSentenceCase(str) {
     if (!str || String(str).toUpperCase() === 'N/R') return 'N/R';
     
     // Maintain common acronyms
-    const abbreviations = ['CNC', 'CNF', 'TOCNF', 'NPs', 'UV-B', 'CO2', 'BCTMP', 'PDES', 'EISA', 'E-NIPS', 'DOI'];
+    const abbreviations = ['CNC', 'CNF', 'ChNF', 'MFC', 'TOCNF', 'NPs', 'UV-B', 'CO2', 'BCTMP', 'PDES', 'EISA', 'E-NIPS', 'DOI'];
     
     let lowerStr = String(str).toLowerCase();
     let result = lowerStr.charAt(0).toUpperCase() + lowerStr.slice(1);
@@ -206,10 +267,10 @@ const labelMap = {
     'Zeta_Potential_mV': 'Zeta potential (mV)',
     'Contact_Angle_deg': 'Contact angle (deg)',
     'Tensile_Strength_MPa': 'Tensile strength (MPa)',
-    'Lignin_Type': 'Lignin group',
-    'Carbohydrate_Type': 'Carbohydrate group',
-    'Synthesis_Method': 'Method group',
-    'Target_Application': 'Application group'
+    'Lignin_Type': 'Lignin source/type group',
+    'Carbohydrate_Type': 'Carbohydrate type',
+    'Synthesis_Method': 'Method type',
+    'Target_Application': 'Application'
 };
 
 const reportedField = {
@@ -233,8 +294,14 @@ let processedData = database.map(d => {
     };
 });
 
+const tensileFormulations = (window.TENSILE_FORMULATIONS || []).map(item => ({
+    ...item,
+    DOI: database.find(record => record.article_number === item.article_number)?.DOI || ''
+}));
+
 const numericalCols = ['Particle_Size_nm', 'Zeta_Potential_mV', 'Contact_Angle_deg', 'Tensile_Strength_MPa'];
 const categoricalCols = ['Lignin_Type', 'Carbohydrate_Type', 'Synthesis_Method', 'Target_Application'];
+const categoryColors = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e', '#eab308', '#67e8f9', '#bef264', '#c084fc'];
 
 function populateSelectors() {
     const selects = {
@@ -295,21 +362,31 @@ function getFilteredData() {
 function updateAllPlots() {
     updateScatterPlot();
     updateDistributionPlot();
-    drawHeatmap();
     drawPathway();
 }
 
 function updateScatterPlot() {
-    const data = getFilteredData();
+    let data = getFilteredData();
     const xVar = document.getElementById('x-axis-select').value;
     const yVar = document.getElementById('y-axis-select').value;
     const colorVar = document.getElementById('color-by-select').value;
     const logX = document.getElementById('log-x-checkbox').checked;
     const logY = document.getElementById('log-y-checkbox').checked;
+    const pearsonGroup = (window.PEARSON_PAIRS || []).find(group =>
+        (group.xKey === xVar && group.yKey === yVar) ||
+        (group.xKey === yVar && group.yKey === xVar));
+    if (pearsonGroup) {
+        const visible = new Map(data.map(record => [record.article_number, record]));
+        data = pearsonGroup.pairs.filter(pair => visible.has(pair.article_number)).map(pair => {
+            const record = visible.get(pair.article_number);
+            return {...record, [pearsonGroup.xKey]: pair.x, [pearsonGroup.yKey]: pair.y,
+                pearsonMaterial: pair.material};
+        });
+    }
 
     const traces = [];
     const groups = [...new Set(data.map(d => d[colorVar]))].filter(Boolean);
-    const colorPalette = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+    const colorPalette = categoryColors;
 
     groups.forEach((group, index) => {
         const groupColor = colorPalette[index % colorPalette.length];
@@ -323,7 +400,9 @@ function updateScatterPlot() {
             x: xVals,
             y: yVals,
             customdata: groupData.map(d => d.DOI),
-            text: groupData.map(d => `<b>Article ${d.article_number}</b><br><b>DOI:</b> ${d.DOI}<br><b>${labelMap[xVar]}:</b> ${d[xVar]}<br><b>Reported X:</b> ${d.fields[reportedField[xVar]]}<br><b>${labelMap[yVar]}:</b> ${d[yVar]}<br><b>Reported Y:</b> ${d.fields[reportedField[yVar]]}`),
+            text: groupData.map(d => d.pearsonMaterial
+                ? `<b>Article ${d.article_number}</b><br><b>DOI:</b> ${d.DOI}<br><b>Material:</b> ${d.pearsonMaterial}<br><b>${labelMap[xVar]}:</b> ${d[xVar]}<br><b>${labelMap[yVar]}:</b> ${d[yVar]}`
+                : `<b>Article ${d.article_number}</b><br><b>DOI:</b> ${d.DOI}<br><b>${labelMap[xVar]}:</b> ${d[xVar]}<br><b>Reported X:</b> ${d.fields[reportedField[xVar]]}<br><b>${labelMap[yVar]}:</b> ${d[yVar]}<br><b>Reported Y:</b> ${d.fields[reportedField[yVar]]}`),
             hoverinfo: 'text',
             mode: 'markers',
             type: 'scatter',
@@ -351,6 +430,15 @@ function updateDistributionPlot() {
     const data = getFilteredData();
     const yVar = document.getElementById('dist-y-select').value;
     const catVar = document.getElementById('dist-category-select').value;
+    const tensileSelected = yVar === 'Tensile_Strength_MPa';
+    document.getElementById('dist-category-control').classList.toggle('hidden', tensileSelected);
+    document.getElementById('tensile-controls').classList.toggle('hidden', !tensileSelected);
+    document.getElementById('tensile-explanation').classList.toggle('hidden', !tensileSelected);
+    if (tensileSelected) {
+        drawTensileFormulations(data);
+        return;
+    }
+    document.getElementById('distribution-plot').style.height = '500px';
 
     const traces = [];
     const groups = [...new Set(data.map(d => d[catVar]))].filter(Boolean).sort();
@@ -378,93 +466,135 @@ function updateDistributionPlot() {
         plot_bgcolor: 'transparent',
         font: { color: '#e2e8f0' },
         margin: { l: 60, r: 20, b: 140, t: 40 },
-        colorway: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+        colorway: categoryColors
     };
 
     Plotly.newPlot('distribution-plot', traces, layout, {responsive: true});
 }
 
-function calculateCorrelation(x, y) {
-    let validPairs = [];
-    for (let i = 0; i < x.length; i++) {
-        if (x[i] !== null && y[i] !== null && !isNaN(x[i]) && !isNaN(y[i])) {
-            validPairs.push([x[i], y[i]]);
-        }
-    }
-    
-    if (validPairs.length < 5) return null;
-    
-    let n = validPairs.length;
-    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
-    validPairs.forEach(([valX, valY]) => {
-        sumX += valX; sumY += valY; sumXY += valX * valY;
-        sumX2 += valX * valX; sumY2 += valY * valY;
-    });
-    
-    let num = (n * sumXY) - (sumX * sumY);
-    let den = Math.sqrt(((n * sumX2) - (sumX * sumX)) * ((n * sumY2) - (sumY * sumY)));
-    return den === 0 ? 0 : num / den;
+function populateTensileConditions() {
+    const specimen = document.getElementById('tensile-specimen-select').value;
+    const select = document.getElementById('tensile-condition-select');
+    const previous = select.value;
+    const conditions = [...new Set(tensileFormulations.filter(item => item.specimen === specimen).map(item => item.condition))];
+    select.replaceChildren(...conditions.map(condition => new Option(condition, condition)));
+    select.value = conditions.includes(previous) ? previous : (conditions.includes('Dry / ambient') ? 'Dry / ambient' : conditions[0]);
 }
 
-function drawHeatmap() {
-    const matrix = [];
-    
-    for (let i = 0; i < numericalCols.length; i++) {
-        const row = [];
-        for (let j = 0; j < numericalCols.length; j++) {
-            const col1 = getFilteredData().map(d => d[numericalCols[i]]);
-            const col2 = getFilteredData().map(d => d[numericalCols[j]]);
-            row.push(calculateCorrelation(col1, col2));
-        }
-        matrix.push(row);
-    }
-
-    const labels = numericalCols.map(c => labelMap[c]);
-    const trace = {
-        z: matrix,
-        x: labels,
-        y: labels,
-        type: 'heatmap',
-        colorscale: 'RdBu',
-        zmin: -1,
-        zmax: 1,
-        showscale: true
-    };
-
-    const layout = {
-        title: '',
-        paper_bgcolor: 'transparent',
-        plot_bgcolor: 'transparent',
-        font: { color: '#e2e8f0' },
-        xaxis: { tickangle: -45 },
-        margin: { l: 150, r: 20, b: 150, t: 40 }
-    };
-
-    Plotly.newPlot('heatmap-plot', [trace], layout, {responsive: true});
+function drawTensileFormulations(filteredRecords) {
+    const articleNumbers = new Set(filteredRecords.map(record => record.article_number));
+    const specimen = document.getElementById('tensile-specimen-select').value;
+    const condition = document.getElementById('tensile-condition-select').value;
+    const rows = tensileFormulations.filter(item => articleNumbers.has(item.article_number) &&
+        item.specimen === specimen && item.condition === condition)
+        .sort((a, b) => a.article_number - b.article_number || a.formulation.localeCompare(b.formulation));
+    const plot = document.getElementById('distribution-plot');
+    const articles = new Set(rows.map(item => item.article_number)).size;
+    const ranges = rows.filter(item => Number.isFinite(item.min) && Number.isFinite(item.max)).length;
+    document.getElementById('distribution-count').textContent = `${rows.length} formulation ${rows.length === 1 ? 'result' : 'results'} from ${articles} ${articles === 1 ? 'article' : 'articles'}${ranges ? ` · ${ranges} reported ${ranges === 1 ? 'range' : 'ranges'}` : ''} · ${specimen} · ${condition}.`;
+    plot.style.height = `${Math.max(500, rows.length * 40 + 120)}px`;
+    const labels = rows.map(item => `Article ${item.article_number} · ${item.formulation}`);
+    const traces = rows.map((item, index) => {
+        const range = Number.isFinite(item.min) && Number.isFinite(item.max);
+        const valueText = range ? `${item.min}–${item.max} MPa (reported range)` :
+            `${item.value} MPa${Number.isFinite(item.sd) ? ` ± ${item.sd} SD` : ''}`;
+        const hover = `<b>Article ${item.article_number}</b><br>${item.formulation}<br>${item.specimen} · ${item.condition}<br><b>${valueText}</b>${item.note ? `<br>${item.note}` : ''}<br>DOI: ${item.DOI}<br><i>Click to open article</i>`;
+        const color = categoryColors[item.article_number % categoryColors.length];
+        return {
+            type: 'scatter', mode: range ? 'lines+markers' : 'markers',
+            x: range ? [item.min, item.max] : [item.value],
+            y: range ? [labels[index], labels[index]] : [labels[index]],
+            line: {color, width: 5}, marker: {color, size: range ? 9 : 11},
+            error_x: range ? undefined : {type: 'data', array: [item.sd || 0], visible: Number.isFinite(item.sd) && item.sd > 0, color, thickness: 1.5},
+            text: hover, hoverinfo: 'text', customdata: range ? [item.DOI, item.DOI] : [item.DOI],
+            showlegend: false
+        };
+    });
+    Plotly.react('distribution-plot', traces, {
+        xaxis: {title: 'Tensile strength (MPa)', gridcolor: '#334155', zeroline: false, rangemode: 'tozero'},
+        yaxis: {categoryorder: 'array', categoryarray: labels.slice().reverse(), automargin: true},
+        paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+        font: {color: '#e2e8f0'}, margin: {l: 245, r: 35, b: 65, t: 25},
+        hovermode: 'closest', annotations: rows.length ? [] : [{text: 'No verified formulation result in this selection.', showarrow: false, x: 0.5, y: 0.5, xref: 'paper', yref: 'paper', font: {color: '#cbd5e1'}}]
+    }, {responsive: true});
+    plot.removeAllListeners('plotly_click');
+    plot.on('plotly_click', event => {
+        const doi = event.points?.[0]?.customdata;
+        if (doi && /^10\.\d{4,9}\//.test(doi)) window.open(`https://doi.org/${doi}`, '_blank');
+    });
 }
 
 function drawPathway() {
-    const data = getFilteredData();
-    if(data.length === 0) return;
+    const data = getFilteredData().filter(d => d.Coformulation_Eligible !== false);
+    if(data.length === 0) {
+        Plotly.react('pathway-plot', [], {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            xaxis: {visible: false}, yaxis: {visible: false},
+            annotations: [{text: 'No combined lignin–CHO formulation in this selection.',
+                showarrow: false, x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
+                font: {size: 15, color: '#cbd5e1'}}]
+        }, {responsive: true});
+        return;
+    }
 
     const cols = ['Lignin_Type', 'Carbohydrate_Type', 'Synthesis_Method', 'Target_Application'];
-    const colLabels = ['Lignin group', 'Carbohydrate group', 'Method group', 'Application group'];
+    const colLabels = ['Lignin group', 'Carbohydrate type', 'Method type', 'Application'];
+    const paths = data.flatMap(d => Array.isArray(d.Pathway_CHO_Types) && d.Pathway_CHO_Types.length
+        ? d.Pathway_CHO_Types.map(type => ({...d, Carbohydrate_Type: normalize(type)}))
+        : [d]);
+
+    const carbohydrateGroups = [
+        {name: 'Cellulose / nanocellulose', color: '#38bdf8', test: val => /CNF|CNC|MFC|cellulose/i.test(val) && !/starch/i.test(val)},
+        {name: 'Chitin / chitosan', color: '#f472b6', test: val => /ChNF|chitin|chitosan/i.test(val)},
+        {name: 'CNF + starch', color: '#fbbf24', test: val => /starch/i.test(val)},
+        {name: 'Other carbohydrate', color: '#c4b5fd', test: () => true}
+    ];
+    const carbohydrateValues = [...new Set(paths.map(d => d.Carbohydrate_Type || 'N/R'))];
+    const visibleGroups = carbohydrateGroups.map(group => ({...group,
+        values: carbohydrateValues.filter(val => group.test(val) &&
+            !carbohydrateGroups.slice(0, carbohydrateGroups.indexOf(group)).some(previous => previous.test(val))).sort()
+    })).filter(group => group.values.length);
+    const slotCount = visibleGroups.reduce((sum, group) => sum + 1 + group.values.length + 0.6, 0);
+    const carbohydrateY = {};
+    const carbohydrateHeadings = [];
+    const carbohydrateBands = [];
+    const carbohydrateColors = {};
+    let slot = 0;
+    visibleGroups.forEach(group => {
+        const top = 1 - slot / slotCount;
+        carbohydrateHeadings.push({name: group.name, color: group.color, y: 1 - (slot + 0.5) / slotCount});
+        slot += 1;
+        group.values.forEach(val => {
+            carbohydrateY[val] = 1 - (slot + 0.5) / slotCount;
+            carbohydrateColors[val] = group.color;
+            slot += 1;
+        });
+        carbohydrateBands.push({type: 'rect', x0: 0.78, x1: 1.22,
+            y0: 1 - slot / slotCount, y1: top,
+            fillcolor: 'rgba(148, 163, 184, 0.08)', line: {color: group.color, width: 1}, layer: 'below'});
+        slot += 0.6;
+    });
     
     const yMappings = {};
     cols.forEach(col => {
+        if (col === 'Carbohydrate_Type') {
+            yMappings[col] = carbohydrateY;
+            return;
+        }
         // Reverse sorting guarantees that 'A' gets placed at the top (y=1) and 'Z' at the bottom (y=0)
-        const uniqueVals = [...new Set(data.map(d => d[col] || 'N/R'))].sort().reverse();
+        const uniqueVals = [...new Set(paths.map(d => d[col] || 'N/R'))].sort().reverse();
         yMappings[col] = {};
         uniqueVals.forEach((val, i) => {
             yMappings[col][val] = uniqueVals.length > 1 ? i / (uniqueVals.length - 1) : 0.5;
         });
     });
 
-    const uniqueLignins = [...new Set(data.map(d => d.Lignin_Type || 'N/R'))].sort();
-    const colorPalette = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e'];
+    const uniqueLignins = [...new Set(paths.map(d => d.Lignin_Type || 'N/R'))].sort();
+    const colorPalette = categoryColors;
 
     const traces = [];
-    data.forEach((d, i) => {
+    paths.forEach((d, i) => {
         const xVals = [0, 1, 2, 3];
         
         // Add deterministic jitter to spread out overlapping lines and make them individually selectable
@@ -474,7 +604,7 @@ function drawPathway() {
             return baseY + jitter;
         });
         
-        const hoverTxt = `<b>DOI:</b> ${d.DOI}<br><b>Lignin:</b> ${d.Lignin_Type || 'N/R'}<br><b>Carbo:</b> ${d.Carbohydrate_Type || 'N/R'}<br><b>Method:</b> ${d.Synthesis_Method || 'N/R'}<br><b>App:</b> ${d.Target_Application || 'N/R'}<br><i>Click to open article</i>`;
+        const hoverTxt = `<b>DOI:</b> ${d.DOI}<br><b>Lignin:</b> ${d.Lignin_Type || 'N/R'}<br><b>CHO:</b> ${d.Carbohydrate_Type || 'N/R'}<br><b>Method:</b> ${d.Synthesis_Method || 'N/R'}<br><b>App:</b> ${d.Target_Application || 'N/R'}${d.Formulation_Relationship ? `<br><b>Formulations:</b> ${d.Formulation_Relationship}` : ''}<br><i>Click to open article</i>`;
         
         const colorIdx = uniqueLignins.indexOf(d.Lignin_Type || 'N/R') % colorPalette.length;
         const lineColor = colorPalette[colorIdx];
@@ -509,12 +639,17 @@ function drawPathway() {
                 xshift: xIdx === 0 ? -15 : (xIdx === 3 ? 15 : 0),
                 font: { size: 10, color: '#f8fafc' },
                 bgcolor: 'rgba(15, 23, 42, 0.85)',
-                bordercolor: '#334155',
+                bordercolor: xIdx === 1 ? carbohydrateColors[val] : '#334155',
                 borderwidth: 1,
                 borderpad: 3
             });
         });
     });
+    carbohydrateHeadings.forEach(group => annotations.push({
+        x: 1, y: group.y, text: `<b>${group.name}</b>`, showarrow: false,
+        xanchor: 'center', yanchor: 'middle', font: {size: 11, color: group.color},
+        bgcolor: 'rgba(15, 23, 42, 0.95)', bordercolor: group.color, borderwidth: 1, borderpad: 3
+    }));
 
     const layout = {
         paper_bgcolor: 'transparent',
@@ -536,6 +671,7 @@ function drawPathway() {
         margin: { l: 200, r: 200, b: 40, t: 60 },
         hovermode: 'closest',
         hoverdistance: 25, // Extends the catch radius for easier line hovering
+        shapes: carbohydrateBands,
         annotations: annotations
     };
 
@@ -618,6 +754,11 @@ function downloadCSV() {
 
 function init() {
     populateSelectors();
+    const specimenSelect = document.getElementById('tensile-specimen-select');
+    const specimenTypes = [...new Set(tensileFormulations.map(item => item.specimen))];
+    specimenSelect.replaceChildren(...specimenTypes.map(specimen => new Option(specimen, specimen)));
+    specimenSelect.value = 'Films and sheets';
+    populateTensileConditions();
     updateAllPlots();
 
     const scatterPlot = document.getElementById('interactive-scatter');
@@ -650,6 +791,8 @@ function init() {
     ['dist-y-select', 'dist-category-select'].forEach(id => {
         document.getElementById(id).addEventListener('change', updateDistributionPlot);
     });
+    specimenSelect.addEventListener('change', () => { populateTensileConditions(); updateDistributionPlot(); });
+    document.getElementById('tensile-condition-select').addEventListener('change', updateDistributionPlot);
     
     document.getElementById('download-csv-btn').addEventListener('click', downloadCSV);
 }

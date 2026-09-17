@@ -552,10 +552,11 @@ function drawPathway() {
     ];
     const carbohydrateValues = [...new Set(paths.map(d => d.Carbohydrate_Type || 'N/R'))];
     const visibleGroups = carbohydrateGroups.map(group => ({...group,
+        showHeading: !['CNF + starch', 'Other carbohydrate'].includes(group.name),
         values: carbohydrateValues.filter(val => group.test(val) &&
             !carbohydrateGroups.slice(0, carbohydrateGroups.indexOf(group)).some(previous => previous.test(val))).sort()
     })).filter(group => group.values.length);
-    const slotCount = visibleGroups.reduce((sum, group) => sum + 1 + group.values.length + 0.6, 0);
+    const slotCount = visibleGroups.reduce((sum, group) => sum + (group.showHeading ? 1 : 0) + group.values.length + 0.6, 0);
     const carbohydrateY = {};
     const carbohydrateHeadings = [];
     const carbohydrateBands = [];
@@ -563,8 +564,10 @@ function drawPathway() {
     let slot = 0;
     visibleGroups.forEach(group => {
         const top = 1 - slot / slotCount;
-        carbohydrateHeadings.push({name: group.name, color: group.color, y: 1 - (slot + 0.5) / slotCount});
-        slot += 1;
+        if (group.showHeading) {
+            carbohydrateHeadings.push({name: group.name, color: group.color, y: 1 - (slot + 0.5) / slotCount});
+            slot += 1;
+        }
         group.values.forEach(val => {
             carbohydrateY[val] = 1 - (slot + 0.5) / slotCount;
             carbohydrateColors[val] = group.color;

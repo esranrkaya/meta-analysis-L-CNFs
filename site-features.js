@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   section.className = 'bg-slate-800/40 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-xl mt-8';
   section.innerHTML = `
     <h2 class="text-2xl font-bold mb-4 text-white">5. Study records</h2>
-    <p class="text-sm text-slate-300 mb-4">The site dataset contains 69 records from 69 articles. Article 70 was excluded because it has no carbohydrate component. PDF identifiers were matched, and numeric fields affected by reviewer comments were screened. Lignin groups reflect the source or type stated in each article; exact wording appears in each record. Some values still require supplementary tables or further source review.</p>
+    <p class="text-sm text-slate-300 mb-4">Explore 69 research articles on lignin and carbohydrate-based materials. Search by DOI, material, method, or application, then open a record to see the reported details.</p>
     <div class="flex flex-col md:flex-row md:items-center gap-3 mb-5">
       <label for="record-search" class="font-semibold">Search studies</label>
       <input id="record-search" type="search" class="w-full md:w-96 px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-white" placeholder="DOI, material, method, measurement...">
